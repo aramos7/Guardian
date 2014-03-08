@@ -4,52 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-
-    <EditText
-        android:id="@+id/register_email_textbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="136dp"
-        android:ems="10"
-        android:hint="@string/email_hint"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/register_address_textbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/register_email_textbox"
-        android:layout_below="@+id/register_email_textbox"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/password_hint"
-        android:inputType="textPassword" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/register_address_textbox"
-        android:layout_below="@+id/register_address_textbox"
-        android:layout_marginTop="20dp"
-        android:onClick="checkLogIn"
-        android:text="@string/title_activity_main" />
  <!-- Because it also saids login -->
-
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/loginButton"
-        android:layout_alignBottom="@+id/loginButton"
-        android:layout_alignLeft="@+id/register_address_textbox"
-        android:onClick="moveToRegisterActivity"
-        android:text="@string/register_button_text" />
 
     <TextView
         android:id="@+id/login_activity_title"
@@ -60,5 +15,51 @@
         android:layout_marginTop="57dp"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/login_password_textbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_username_textbox"
+        android:layout_below="@+id/login_username_textbox"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/loginButton"
+        android:layout_alignBottom="@+id/loginButton"
+        android:layout_alignLeft="@+id/login_password_textbox"
+        android:onClick="moveToRegisterActivity"
+        android:text="@string/register_button_text" />
+
+    <EditText
+        android:id="@+id/login_username_textbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/loginButton"
+        android:layout_below="@+id/login_activity_title"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textEmailAddress" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_activity_title"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="77dp"
+        android:onClick="checkLogIn"
+        android:text="@string/title_activity_main" />
 
 </RelativeLayout>

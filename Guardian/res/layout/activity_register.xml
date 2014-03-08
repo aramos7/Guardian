@@ -16,9 +16,15 @@
         android:text="@string/register_activity_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Space
+    <EditText
+        android:id="@+id/register_username_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/username_hint" >
+
+        <requestFocus />
+    </EditText>
 
     <EditText
         android:id="@+id/register_email_textbox"
@@ -45,7 +51,7 @@
         android:inputType="textPostalAddress" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/register_password_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -53,7 +59,7 @@
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/register_reenter_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

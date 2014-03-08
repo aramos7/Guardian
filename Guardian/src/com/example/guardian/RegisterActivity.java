@@ -1,14 +1,13 @@
 package com.example.guardian;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.EditText;
 
 public class RegisterActivity extends Activity {
 
@@ -16,18 +15,6 @@ public class RegisterActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		// Show the Up button in the action bar.
-		setupActionBar();
-	}
-
-	/**
-	 * Set up the {@link android.app.ActionBar}, if the API is available.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void setupActionBar() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
 	}
 
 	@Override
@@ -37,21 +24,61 @@ public class RegisterActivity extends Activity {
 		return true;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
+	/**
+	 * Creates a new user for use with the app. Thanks.
+	 * 
+	 * @param view
+	 */
+	public void registerUser(View view) {
+
+		EditText choosePasswordBox = (EditText) findViewById(R.id.register_password_box);
+		EditText reenterPasswordBox = (EditText) findViewById(R.id.register_reenter_box);
+
+		String password = choosePasswordBox.getText().toString();
+		String repassword = reenterPasswordBox.getText().toString();
+
+		if (!password.equals(repassword)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Passwords do not match.")
+					.setCancelable(false)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// Nothing, just die. Haha
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+		} else {
+			Intent intent = new Intent(this, SetUpActivity.class);
+
+			EditText usernameBox = (EditText) findViewById(R.id.register_username_box);
+			EditText nameBox = (EditText) findViewById(R.id.register_name_textbox);
+			EditText emailBox = (EditText) findViewById(R.id.register_email_textbox);
+			EditText homeAddressBox = (EditText) findViewById(R.id.register_address_textbox);
+
+			String username = usernameBox.getText().toString();
+			String name = nameBox.getText().toString();
+			String email = emailBox.getText().toString();
+			String address = homeAddressBox.getText().toString();
+
+			SessionManager.SESSION = new SessionManager(username, email, true);
+			SessionManager.SESSION.addMoreInfo(email, address, name);
+
+			Guardian[] guardians = new Guardian[3];
+			guardians[0] = new Guardian("Maria del Carmen",
+					"maricarmen@falsify.com", "770-555-5555");
+			guardians[1] = new Guardian("Joe Divers", "jdriver334@falsify.com",
+					"770-555-5556");
+			guardians[2] = new Guardian("Yael Naor",
+					"maricarmen@falsify.com", "770-555-5557");
+
+			SessionManager.SESSION.setGuardians(guardians);
+
+			startActivity(intent);
 		}
-		return super.onOptionsItemSelected(item);
+
 	}
 
 }
