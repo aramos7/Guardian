@@ -22,6 +22,10 @@ public class SessionManager {
 		this.password = password;
 		this.validated = validated;
 	}
+
+    public void setValidated(boolean input) {
+        validated = input;
+    }
 	
 	public boolean isItValidated() {
 		return validated;
