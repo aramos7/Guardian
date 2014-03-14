@@ -25,31 +25,35 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int maps_image=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f090016;
-        public static final int create_account_button=0x7f09000c;
-        public static final int loginButton=0x7f090004;
-        public static final int login_activity_title=0x7f090000;
-        public static final int login_password_textbox=0x7f090001;
-        public static final int login_username_textbox=0x7f090002;
-        public static final int registerButton=0x7f090003;
-        public static final int register_address_textbox=0x7f090009;
-        public static final int register_email_textbox=0x7f090007;
-        public static final int register_name_textbox=0x7f090008;
-        public static final int register_password_box=0x7f09000a;
-        public static final int register_reenter_box=0x7f09000b;
-        public static final int register_username_box=0x7f090006;
+        public static final int action_settings=0x7f090019;
+        public static final int button1=0x7f090017;
+        public static final int button2=0x7f090018;
+        public static final int calendarView1=0x7f090013;
+        public static final int create_account_button=0x7f09000d;
+        public static final int imageView1=0x7f090005;
+        public static final int loginButton=0x7f090003;
+        public static final int login_activity_title=0x7f090002;
+        public static final int login_password_textbox=0x7f090000;
+        public static final int login_username_textbox=0x7f090001;
+        public static final int registerButton=0x7f090004;
+        public static final int register_address_textbox=0x7f09000a;
+        public static final int register_email_textbox=0x7f090008;
+        public static final int register_name_textbox=0x7f090009;
+        public static final int register_password_box=0x7f09000b;
+        public static final int register_reenter_box=0x7f09000c;
+        public static final int register_username_box=0x7f090007;
         public static final int scrollView1=0x7f09000e;
         public static final int setup_cancel_button=0x7f090015;
-        public static final int setup_date_picker=0x7f090013;
         public static final int setup_date_text=0x7f090012;
         public static final int setup_pick_guardians_button=0x7f09000f;
         public static final int setup_start_tracking_button=0x7f090014;
         public static final int setup_time_picker=0x7f090011;
         public static final int setup_time_text=0x7f090010;
-        public static final int setup_title_text=0x7f09000d;
-        public static final int textView1=0x7f090005;
+        public static final int textView1=0x7f090006;
+        public static final int textView2=0x7f090016;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -93,6 +97,7 @@ public final class R {
         public static final int title_activity_set_up=0x7f06000c;
         public static final int title_activity_view_map=0x7f060017;
         public static final int username_hint=0x7f060015;
+        public static final int view_map_title=0x7f060019;
     }
     public static final class style {
         /** 

@@ -25,10 +25,12 @@
     <!-- Set Up Activity Strings -->
     <string name="setup_pick_time_string">Pick an end time for tracker.</string>
     <string name="setup_pick_date_string">Pick an end date for tracker.</string>
-    <string name="setup_start_tracking_string">Start Tracking</string>
+    <string name="setup_start_tracking_string">Start Session</string>
     <string name="username_hint">Username</string>
     <string name="setup_pick_guardians_string">Pick Your Guardians</string>
     <string name="title_activity_view_map">ViewMapActivity</string>
     <string name="hello_world">Hello world!</string>
+    
+    <string name="view_map_title">Map Tracking</string>
 
 </resources>

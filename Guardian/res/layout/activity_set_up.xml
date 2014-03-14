@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/setup_title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_setup_title_string"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
@@ -25,6 +18,7 @@
                 android:id="@+id/setup_pick_guardians_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="top"
                 android:onClick="pickGuardians"
                 android:text="@string/setup_pick_guardians_string" />
 
@@ -47,10 +41,10 @@
                 android:layout_gravity="top"
                 android:text="@string/setup_pick_date_string" />
 
-            <DatePicker
-                android:id="@+id/setup_date_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <CalendarView
+                android:id="@+id/calendarView1"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
 
             <Button
                 android:id="@+id/setup_start_tracking_button"

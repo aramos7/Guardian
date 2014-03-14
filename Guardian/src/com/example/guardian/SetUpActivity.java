@@ -28,28 +28,33 @@ public class SetUpActivity extends Activity {
 		AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 		builder1.setTitle("Pick a Guardian to track you.")
 				.setMultiChoiceItems(R.array.guardians, null,
-	                      new DialogInterface.OnMultiChoiceClickListener() {
-							
+						new DialogInterface.OnMultiChoiceClickListener() {
+
 							@Override
-							public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+							public void onClick(DialogInterface dialog,
+									int which, boolean isChecked) {
 								// TODO Auto-generated method stub
-								
+
 							}
 						})
-				.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int id) {
-								// Nothing, just die. Haha
-							}
-						});
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// Nothing, just die. Haha
+					}
+				});
 		AlertDialog alert = builder1.create();
 		alert.show();
 	}
 
+	/**
+	 * Starts the background tracking tasks and sends the user to the view map
+	 * activity
+	 * 
+	 * @param view
+	 */
 	public void startTracking(View view) {
 
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, ViewMapActivity.class);
 		startActivity(intent);
 	}
 
