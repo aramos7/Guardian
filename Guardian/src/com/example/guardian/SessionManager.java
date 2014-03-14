@@ -1,5 +1,8 @@
 package com.example.guardian;
 
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
 /**
  * Maintains all the information about a session, whether it is valid or not, etc. 
  * 
@@ -9,6 +12,7 @@ package com.example.guardian;
 public class SessionManager {
 	
 	public static SessionManager SESSION = null;
+    private String sessionID;
 	private String username;
 	private String password;
 	private String email;
@@ -16,11 +20,14 @@ public class SessionManager {
 	private boolean validated;
 	private Guardian[] guardians;
 	private String address;
+    private HttpContext httpContext;
 	
 	public SessionManager(String username, String password, boolean validated) {
 		this.username = username;
 		this.password = password;
 		this.validated = validated;
+        sessionID = "";
+        httpContext = new BasicHttpContext();
 	}
 
     public void setValidated(boolean input) {
@@ -44,6 +51,22 @@ public class SessionManager {
 		this.name = name;
 		this.address = address;
 	}
+
+    public HttpContext getHttpContext() {
+        return httpContext;
+    }
+
+    public void setHttpContext(HttpContext httpContext){
+        this.httpContext = httpContext;
+    }
+
+    public void setSessionID(String input) {
+        sessionID = input;
+    }
+
+    public String getSessionId() {
+        return sessionID;
+    }
 	
 	
 }

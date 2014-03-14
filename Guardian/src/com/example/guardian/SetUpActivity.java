@@ -53,8 +53,8 @@ public class SetUpActivity extends Activity {
 	 * @param view
 	 */
 	public void startTracking(View view) {
-
 		Intent intent = new Intent(this, ViewMapActivity.class);
+        RESTfulCommunicator.createSession();
 		startActivity(intent);
 	}
 

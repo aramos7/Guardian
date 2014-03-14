@@ -16,10 +16,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -59,7 +62,7 @@ public class RESTfulCommunicator {
                     HttpPost httppost = new HttpPost(BASE_URL + "api/login");
                     HttpContext httpContext = new BasicHttpContext();
 
-                    httpContext.setAttribute(ClientContext.COOKIE_STORE, RESTfulCommunicator.cookieStore);
+                    httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 
                     // Add your data
                     List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -70,11 +73,11 @@ public class RESTfulCommunicator {
                     // Execute HTTP Post Request
                     HttpResponse response = httpclient.execute(httppost, httpContext);
                     String responseStr = EntityUtils.toString(response.getEntity());
-                    Log.d("ResponseString", responseStr);
 
                     if (responseStr.equals("true")) {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("session_id", responseStr);
+                        SessionManager.SESSION.setHttpContext(httpContext);
                         if (handler != null) {
                             handler.onSuccess(jsonObject);
                         }
@@ -112,4 +115,107 @@ public class RESTfulCommunicator {
 		JSONArray finalResult = new JSONArray(tokener);
 		return finalResult;
 	}
+
+    /**
+     * Post request to create a session for the user
+     */
+    public static void createSession() {
+        Thread t = new Thread() {
+
+            public void run() {
+                // Create a new HttpClient and Post Header
+                String resource = "api/createSession";
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(BASE_URL + resource);
+                JSONObject json = new JSONObject();
+
+                try {
+                    // Add your data
+                    json.put("startDate", "2014-02-27T18:10:53.211Z");
+                    json.put("endDate", "2014-02-28T18:10:53.211Z");
+
+                    //Adding the end location data
+                    JSONObject endLoc = new JSONObject();
+                    endLoc.put("latitude", "37.42291810");
+                    endLoc.put("longitude", "-122.08542120");
+                    json.put("finalLocation", endLoc);
+                    json.put("locationsArray", new JSONArray());
+
+                    //Adding the guardian ingformation
+                    JSONObject gContact = new JSONObject();
+                    endLoc.put("phone", "6789562305");
+                    endLoc.put("email", "ajain93@gatech.edu");
+                    json.put("guardianContact", gContact);
+
+                    //Setting the entities and content
+                    StringEntity se = new StringEntity(json.toString());
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    httppost.setEntity(se);
+
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost, SessionManager.SESSION.getHttpContext());
+                    JSONObject curr = httpResponseToJSONObject(response);
+
+                    //Save the JSON response
+                    SessionManager.SESSION.setSessionID(curr.getString("_id"));
+
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    /**
+     * Post request to delete a session for the user
+     */
+    public static void deleteSession() {
+        Thread t = new Thread() {
+            public void run() {
+                // Create a new HttpClient and Post Header
+                String resource = "api/deleteSession/";
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(BASE_URL + resource + SessionManager.SESSION.getSessionId());
+
+                try {
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost, SessionManager.SESSION.getHttpContext());
+                    if (response.equals("Session Removed")) {
+                        Log.d("Session Removed", "~~~~~~~~~");
+                        //Find way to eliminate session
+                        SessionManager.SESSION.setSessionID("");
+                    }
+
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static JSONObject httpResponseToJSONObject(HttpResponse response) {
+        JSONObject curr = null;
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+            StringBuilder builder = new StringBuilder();
+            for (String line = null; (line = reader.readLine()) != null; ) {
+                builder.append(line).append("\n");
+            }
+            curr = new JSONObject(builder.toString());
+        }
+        catch (Exception e) {
+
+        }
+        return curr;
+    }
 }
