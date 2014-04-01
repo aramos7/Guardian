@@ -231,12 +231,6 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
                                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID+ " = ?",
                                         new String[] { id },
                                         null);
-//                        Cursor eCur = cr.query(
-//                                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-//                                        null,
-//                                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
-//                                        new String[]{id},
-//                                        null);
 
                         int j=0;
                         while (pCur.moveToNext())
@@ -247,16 +241,28 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
                                 // Get Phone number
                                 phoneNumber = "" + pCur.getString(pCur
                                         .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                                email = eCur.getString(eCur
-//                                        .getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-
+                                email = "";
+                                Cursor eCur = cr.query(
+                                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                                        null,
+                                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                                        new String[]{id},
+                                        null);
+                                while (eCur.moveToNext())
+                                {
+                                    email = eCur.getString(eCur
+                                          .getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                                }
+                                eCur.close();
                                 // Add contacts names to adapter
                                 adapter.add(name);
 
                                 // Add ArrayList names to adapter
+                                //Adds "" in case email does not exist
                                 emailValueArr.add(email.toString());
                                 phoneValueArr.add(phoneNumber.toString());
                                 nameValueArr.add(name.toString());
+                                //Log.d("Details: ", name.toString() + " : " + phoneNumber.toString() + " : " + email.toString());
 
                                 j++;
                                 k++;
