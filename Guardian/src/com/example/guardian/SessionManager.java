@@ -3,6 +3,9 @@ package com.example.guardian;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Maintains all the information about a session, whether it is valid or not, etc. 
  * 
@@ -18,7 +21,7 @@ public class SessionManager {
 	private String email;
 	private String name;
 	private boolean validated;
-	private Guardian[] guardians;
+	private ArrayList<Guardian> guardians;
 	private String address;
     private HttpContext httpContext;
 	
@@ -38,11 +41,12 @@ public class SessionManager {
 		return validated;
 	}
 	
-	public void setGuardians(Guardian[] guardians) {
-		this.guardians = guardians;
+	public void setGuardians(ArrayList<Guardian> guardians) {
+
+        this.guardians = guardians;
 	}
 	
-	public Guardian[] getGuardians() {
+	public ArrayList<Guardian> getGuardians() {
 		return guardians;
 	}
 	

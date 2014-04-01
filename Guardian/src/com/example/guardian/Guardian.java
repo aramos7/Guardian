@@ -15,8 +15,14 @@ public class Guardian {
 	public Guardian(String name, String email, String phoneNumber) {
 		this.name = name;
 		this.email = email;
-		this. phoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber;
 	}
+
+    public Guardian(String name, String phoneNumber) {
+        this.name = name;
+        email = null;
+        this.phoneNumber = phoneNumber;
+    }
 	
 	public String getName() {
 		return name;

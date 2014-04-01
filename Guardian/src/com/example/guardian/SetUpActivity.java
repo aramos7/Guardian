@@ -41,9 +41,11 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
     public static ArrayList<String> nameValueArr = new ArrayList<String>();
     public static ArrayList<String> emailValueArr = new ArrayList<String>();
 
-    EditText toNumber=null;
+    //EditText toNumber=null;
     String toNumberValue="";
     String toEmailValue="";
+
+    public static ArrayList<Guardian> guardians;
 
     //Linear Layout for adding Guardians
     LinearLayout layoutGuardians;
@@ -67,6 +69,9 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
         textView.setAdapter(adapter);
         textView.setOnItemSelectedListener(this);
         textView.setOnItemClickListener(this);
+
+        //Initialize guardians array
+        guardians = new ArrayList<Guardian>();
 
         //Linear Layout for Guardians
         layoutGuardians = (LinearLayout) findViewById(R.id.guardianLayout);
@@ -320,10 +325,16 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
             TextView text = new TextView(this);
             text.setText(arg0.getItemAtPosition(arg2).toString());
             layoutGuardians.addView(text);
-            Toast.makeText(getBaseContext(),
-                    "Position:" + arg2 + " Name:" + arg0.getItemAtPosition(arg2) + " Number:" + toNumberValue + " Email: "
-                    + toEmailValue,
-                    Toast.LENGTH_LONG).show();
+
+            if (!toEmailValue.equals(""))
+                guardians.add(new Guardian(arg0.getItemAtPosition(arg2).toString(), toEmailValue, toNumberValue));
+            else
+                guardians.add(new Guardian(arg0.getItemAtPosition(arg2).toString(), toNumberValue));
+
+//            Toast.makeText(getBaseContext(),
+//                    "Position:" + arg2 + " Name:" + arg0.getItemAtPosition(arg2) + " Number:" + toNumberValue + " Email: "
+//                    + toEmailValue,
+//                    Toast.LENGTH_LONG).show();
 
             Log.d("Size of Array: ", Integer.toString(phoneValueArr.size()));
 

@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class RegisterActivity extends Activity {
 
 	@Override
@@ -66,13 +68,13 @@ public class RegisterActivity extends Activity {
 			SessionManager.SESSION = new SessionManager(username, email, true);
 			SessionManager.SESSION.addMoreInfo(email, address, name);
 
-			Guardian[] guardians = new Guardian[3];
-			guardians[0] = new Guardian("Maria del Carmen",
-					"maricarmen@falsify.com", "770-555-5555");
-			guardians[1] = new Guardian("Joe Divers", "jdriver334@falsify.com",
-					"770-555-5556");
-			guardians[2] = new Guardian("Yael Naor",
-					"maricarmen@falsify.com", "770-555-5557");
+			ArrayList<Guardian> guardians = new ArrayList<Guardian>();
+			guardians.add(new Guardian("Maria del Carmen",
+					"maricarmen@falsify.com", "770-555-5555"));
+			guardians.add(new Guardian("Joe Divers", "jdriver334@falsify.com",
+					"770-555-5556"));
+			guardians.add(new Guardian("Yael Naor",
+					"maricarmen@falsify.com", "770-555-5557"));
 
 			SessionManager.SESSION.setGuardians(guardians);
 

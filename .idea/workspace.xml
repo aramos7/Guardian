@@ -87,13 +87,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SetUpActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SetUpActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SetUpActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6766917" vertical-offset="3690" max-vertical-offset="5445">
-              <caret line="264" column="34" selection-start="10826" selection-end="10826" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4665" max-vertical-offset="5610">
+              <caret line="331" column="100" selection-start="13193" selection-end="13193" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SessionManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SessionManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="960">
+              <caret line="50" column="5" selection-start="1223" selection-end="1223" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Guardian.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/Guardian.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+              <caret line="23" column="13" selection-start="510" selection-end="510" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegisterActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/RegisterActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4368932" vertical-offset="540" max-vertical-offset="1170">
+              <caret line="62" column="19" selection-start="1975" selection-end="1975" />
+              <folding>
+                <element signature="e#2355#2365#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,7 +134,7 @@
       <file leaf-file-name="activity_set_up.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Guardian/res/layout/activity_set_up.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1155" max-vertical-offset="2115">
+            <state vertical-scroll-proportion="8.888889" vertical-offset="1155" max-vertical-offset="2115">
               <caret line="61" column="40" selection-start="2437" selection-end="2437" />
               <folding />
             </state>
@@ -124,7 +156,6 @@
       <list>
         <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/JsonHttpResponseHandler.java" />
         <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/MainActivity.java" />
-        <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/SessionManager.java" />
         <option value="$PROJECT_DIR$/Guardian/res/layout/activity_view_map.xml" />
         <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/RESTfulCommunicator.java" />
         <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/ViewMapActivity.java" />
@@ -132,7 +163,10 @@
         <option value="$PROJECT_DIR$/Guardian/res/layout/contacts_list_view.xml" />
         <option value="$PROJECT_DIR$/Guardian/res/layout/contacts_list_item.xml" />
         <option value="$PROJECT_DIR$/Guardian/res/layout/activity_set_up.xml" />
+        <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/SessionManager.java" />
         <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/SetUpActivity.java" />
+        <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/Guardian.java" />
+        <option value="$PROJECT_DIR$/Guardian/src/com/example/guardian/RegisterActivity.java" />
       </list>
     </option>
   </component>
@@ -182,6 +216,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Guardian" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guardian" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guardian" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guardian" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -436,6 +488,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3090615" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -458,7 +511,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3090615" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -563,6 +615,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1080">
           <caret line="63" column="27" selection-start="1829" selection-end="1829" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -642,6 +695,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1080">
           <caret line="63" column="27" selection-start="1829" selection-end="1829" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -670,6 +724,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1080">
           <caret line="42" column="44" selection-start="1119" selection-end="1119" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -705,6 +760,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="855">
           <caret line="42" column="44" selection-start="1119" selection-end="1119" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -716,13 +772,6 @@
       </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/Guardian.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <caret line="18" column="5" selection-start="393" selection-end="393" />
-        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/org/apache/http/protocol/HttpContext.class">
@@ -757,13 +806,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7451456" vertical-offset="1103" max-vertical-offset="1515">
           <caret line="95" column="0" selection-start="3992" selection-end="3992" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/RegisterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1170">
-          <caret line="65" column="79" selection-start="2215" selection-end="2215" />
         </state>
       </provider>
     </entry>
@@ -807,17 +849,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SessionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.88834953" vertical-offset="264" max-vertical-offset="915">
-          <caret line="51" column="31" selection-start="1268" selection-end="1268" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/RESTfulCommunicator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.2014563" vertical-offset="1253" max-vertical-offset="2835">
           <caret line="181" column="64" selection-start="7184" selection-end="7184" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -855,7 +891,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Guardian/res/layout/activity_set_up.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1155" max-vertical-offset="2115">
+        <state vertical-scroll-proportion="8.888889" vertical-offset="1155" max-vertical-offset="2115">
           <caret line="61" column="40" selection-start="2437" selection-end="2437" />
           <folding />
         </state>
@@ -866,10 +902,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SetUpActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6766917" vertical-offset="3690" max-vertical-offset="5445">
-          <caret line="264" column="34" selection-start="10826" selection-end="10826" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4665" max-vertical-offset="5610">
+          <caret line="331" column="100" selection-start="13193" selection-end="13193" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SessionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="489" max-vertical-offset="960">
+          <caret line="50" column="5" selection-start="1223" selection-end="1223" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/Guardian.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+          <caret line="23" column="13" selection-start="510" selection-end="510" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/RegisterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4368932" vertical-offset="540" max-vertical-offset="1170">
+          <caret line="62" column="19" selection-start="1975" selection-end="1975" />
+          <folding>
+            <element signature="e#2355#2365#0" expanded="true" />
           </folding>
         </state>
       </provider>
