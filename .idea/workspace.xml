@@ -90,11 +90,12 @@
       <file leaf-file-name="SetUpActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SetUpActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5864662" vertical-offset="1086" max-vertical-offset="2520">
-              <caret line="88" column="30" selection-start="3739" selection-end="3739" />
+            <state vertical-scroll-proportion="-0.9548872" vertical-offset="4131" max-vertical-offset="5355">
+              <caret line="250" column="104" selection-start="9980" selection-end="10112" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#820#828#0" expanded="true" />
+                <element signature="e#1309#1317#0" expanded="true" />
+                <element signature="e#1386#1394#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -106,8 +107,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.111111" vertical-offset="450" max-vertical-offset="1545">
-              <caret line="50" column="59" selection-start="2009" selection-end="2009" />
+            <state vertical-scroll-proportion="8.888889" vertical-offset="1155" max-vertical-offset="2115">
+              <caret line="61" column="40" selection-start="2437" selection-end="2437" />
               <folding />
             </state>
           </provider>
@@ -168,6 +169,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -183,24 +186,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Guardian" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Guardian" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Guardian" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="guardian" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -238,8 +223,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -428,6 +411,26 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="774" extended-state="6" />
     <editor active="true" />
@@ -445,14 +448,15 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.331307" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.331307" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23101777" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32826748" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="100" y="122" width="1080" height="574" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -489,7 +493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="825">
           <caret line="22" column="35" selection-start="607" selection-end="607" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -504,7 +507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1170">
           <caret line="11" column="13" selection-start="287" selection-end="287" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -539,7 +541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="465">
           <caret line="6" column="13" selection-start="126" selection-end="126" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -572,7 +573,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="765">
           <caret line="8" column="13" selection-start="196" selection-end="196" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -587,7 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1170">
           <caret line="11" column="13" selection-start="287" selection-end="287" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -622,7 +621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="465">
           <caret line="6" column="13" selection-start="126" selection-end="126" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -655,7 +653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="765">
           <caret line="8" column="13" selection-start="196" selection-end="196" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -670,7 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1170">
           <caret line="11" column="13" selection-start="287" selection-end="287" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -686,7 +682,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="675">
           <caret line="8" column="13" selection-start="196" selection-end="196" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -708,7 +703,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1170">
           <caret line="11" column="13" selection-start="287" selection-end="287" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -790,7 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.14563107" vertical-offset="0" max-vertical-offset="412">
           <caret line="4" column="25" selection-start="116" selection-end="116" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -801,17 +794,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="750" max-vertical-offset="1170">
           <caret line="50" column="36" selection-start="1884" selection-end="1884" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Guardian/res/layout/activity_view_map.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.85714287" vertical-offset="375" max-vertical-offset="840">
-          <caret line="47" column="42" selection-start="1628" selection-end="1628" />
           <folding />
         </state>
       </provider>
@@ -828,7 +810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="368" max-vertical-offset="1125">
           <caret line="35" column="8" selection-start="873" selection-end="933" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -836,7 +817,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.88834953" vertical-offset="264" max-vertical-offset="915">
           <caret line="51" column="31" selection-start="1268" selection-end="1268" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -852,7 +832,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7815534" vertical-offset="1748" max-vertical-offset="2160">
           <caret line="139" column="0" selection-start="4616" selection-end="4616" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -860,7 +839,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7815534" vertical-offset="593" max-vertical-offset="1005">
           <caret line="62" column="0" selection-start="1884" selection-end="1884" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -868,6 +846,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7744361" vertical-offset="996" max-vertical-offset="1395">
           <caret line="88" column="0" selection-start="3480" selection-end="3480" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Guardian/res/layout/activity_view_map.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0909091" vertical-offset="120" max-vertical-offset="840">
+          <caret line="36" column="38" selection-start="1232" selection-end="1232" />
           <folding />
         </state>
       </provider>
@@ -877,19 +865,20 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.111111" vertical-offset="450" max-vertical-offset="1545">
-          <caret line="50" column="59" selection-start="2009" selection-end="2009" />
+        <state vertical-scroll-proportion="8.888889" vertical-offset="1155" max-vertical-offset="2115">
+          <caret line="61" column="40" selection-start="2437" selection-end="2437" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Guardian/src/com/example/guardian/SetUpActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5864662" vertical-offset="1086" max-vertical-offset="2520">
-          <caret line="88" column="30" selection-start="3739" selection-end="3739" />
+        <state vertical-scroll-proportion="-0.9548872" vertical-offset="4131" max-vertical-offset="5355">
+          <caret line="250" column="104" selection-start="9980" selection-end="10112" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#820#828#0" expanded="true" />
+            <element signature="e#1309#1317#0" expanded="true" />
+            <element signature="e#1386#1394#0" expanded="true" />
           </folding>
         </state>
       </provider>
