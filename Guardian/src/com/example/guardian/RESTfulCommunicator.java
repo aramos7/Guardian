@@ -38,7 +38,7 @@ import org.json.JSONTokener;
  */
 public class RESTfulCommunicator {
 
-	private final static String BASE_URL = "http://guardian-11570.onmodulus.net/";
+	private final static String BASE_URL = "https://guardian-11570.onmodulus.net/";
     public static BasicCookieStore cookieStore = new BasicCookieStore();
 
 	/**
@@ -119,7 +119,7 @@ public class RESTfulCommunicator {
     /**
      * Post request to create a session for the user
      */
-    public static void createSession() {
+    public static void createSession(final Long startDate, final Long endDate, final ArrayList<Guardian> guardians) {
         Thread t = new Thread() {
 
             public void run() {
@@ -131,21 +131,27 @@ public class RESTfulCommunicator {
 
                 try {
                     // Add your data
-                    json.put("startDate", "2014-02-27T18:10:53.211Z");
-                    json.put("endDate", "2014-02-28T18:10:53.211Z");
+                    json.put("startDate", startDate);
+                    json.put("endDate", endDate);
 
                     //Adding the end location data
                     JSONObject endLoc = new JSONObject();
                     endLoc.put("latitude", "37.42291810");
                     endLoc.put("longitude", "-122.08542120");
                     json.put("finalLocation", endLoc);
-                    json.put("locationsArray", new JSONArray());
+                    json.put("locationArray", new JSONArray());
 
-                    //Adding the guardian ingformation
-                    JSONObject gContact = new JSONObject();
-                    endLoc.put("phone", "6789562305");
-                    endLoc.put("email", "ajain93@gatech.edu");
-                    json.put("guardianContact", gContact);
+                    //Adding the guardian information
+                    JSONArray guardiansJSON = new JSONArray();
+                    for (Guardian g: guardians) {
+                        JSONObject gContact = new JSONObject();
+                        gContact.put("phone", g.getPhoneNumber());
+                        gContact.put("email", g.getEmail());
+                        gContact.put("status", "pending");
+                        gContact.put("smsUpdates", "true");
+                        guardiansJSON.put(gContact);
+                    }
+                    json.put("guardianContactArray", guardiansJSON);
 
                     //Setting the entities and content
                     StringEntity se = new StringEntity(json.toString());
@@ -157,7 +163,9 @@ public class RESTfulCommunicator {
                     JSONObject curr = httpResponseToJSONObject(response);
 
                     //Save the JSON response
+                    Log.d("Response ~~~~~~~", curr.toString());
                     SessionManager.SESSION.setSessionID(curr.getString("_id"));
+                    Log.d("Session ID", curr.getString("_id"));
 
                 } catch (ClientProtocolException e) {
                     // TODO Auto-generated catch block

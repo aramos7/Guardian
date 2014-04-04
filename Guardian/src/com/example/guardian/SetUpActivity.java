@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -13,14 +14,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -183,7 +187,26 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
 	 */
 	public void startTracking(View view) {
 		Intent intent = new Intent(this, ViewMapActivity.class);
-        RESTfulCommunicator.createSession();
+
+        CalendarView calendar = (CalendarView) findViewById(R.id.set_up_calendar);
+        TimePicker timer = (TimePicker) findViewById(R.id.setup_time_picker);
+
+        //Getting variables form the intent via user input
+        long endDate = calendar.getDate();
+        int hour = timer.getCurrentHour();
+        int minutes = timer.getCurrentMinute();
+
+        //Start date
+        Date start = new Date();
+        Long startDate = start.getTime();
+
+        endDate += (hour * 60 * 60 * 1000) + (minutes * 60 * 1000);
+
+//        Log.d("Start Date ~~~~~~~~~~~~~~~~", startDate.toString());
+//        Log.d("End Date ~~~~~~~~~~~~~~~~", String.valueOf(endDate));
+
+        SessionManager.SESSION.setGuardians(guardians);
+        RESTfulCommunicator.createSession(startDate, endDate, SessionManager.SESSION.getGuardians());
 		startActivity(intent);
 	}
 
@@ -216,7 +239,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
             // If data data found in contacts
             if (cur.getCount() > 0) {
 
-                Log.i("AutocompleteContacts", "Reading   contacts........");
+                Log.i("AutocompleteContacts", "Reading contacts........");
                 int k = 0;
                 String name = "";
 
@@ -336,7 +359,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
 //                    + toEmailValue,
 //                    Toast.LENGTH_LONG).show();
 
-            Log.d("Size of Array: ", Integer.toString(phoneValueArr.size()));
+            //Log.d("Size of Array: ", Integer.toString(phoneValueArr.size()));
 
         }
 

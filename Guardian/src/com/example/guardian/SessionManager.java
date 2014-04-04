@@ -24,6 +24,8 @@ public class SessionManager {
 	private ArrayList<Guardian> guardians;
 	private String address;
     private HttpContext httpContext;
+    private long endDate;
+    private long startDate;
 	
 	public SessionManager(String username, String password, boolean validated) {
 		this.username = username;
@@ -31,6 +33,7 @@ public class SessionManager {
 		this.validated = validated;
         sessionID = "";
         httpContext = new BasicHttpContext();
+        guardians = new ArrayList<Guardian>();
 	}
 
     public void setValidated(boolean input) {
