@@ -14,85 +14,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!--
-            <Button
-                android:id="@+id/setup_pick_guardians_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:onClick="pickGuardians"
-                android:text="@string/setup_pick_guardians_string" />
-            -->
-
-            <!--
-            <EditText
-                android:layout_height="wrap_content"
-                android:hint="Some Hint"
-                android:id="@+id/invite_email"
-                android:inputType="textEmailAddress"
-                android:layout_width="wrap_content"
-                android:layout_toLeftOf="@+id/do_email_picker"
-                android:layout_alignParentLeft="true"/>
-            -->
-
-            <!-- <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/contacts_picker"
-                android:text="Pick Guardians"
-                android:layout_alignParentRight="true"
-                android:onClick="pickGuardians"/> -->
-
             <TextView
-                android:layout_height="wrap_content"
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
-                android:layout_toLeftOf="@+id/invite_email"
-                android:layout_alignParentLeft="true"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/invite_email" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-            <AutoCompleteTextView
-                android:id="@+id/setup_contacts_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:ellipsize="end"
-                android:gravity="left|center_vertical"
-                android:hint="Type Name"
-                android:singleLine="true" />
-
-             <!-- <Button android:id="@+id/send"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
+                <AutoCompleteTextView
+                    android:id="@+id/setup_contacts_textview"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="+"
-                    /> -->
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:ellipsize="end"
+                    android:gravity="left|center_vertical"
+                    android:hint="Type Name"
+                    android:singleLine="true" />
             </LinearLayout>
-            <LinearLayout 
+
+            <LinearLayout
                 android:id="@+id/guardianLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
-
-            <!-- <TextView
-                android:id="@+id/guardian1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/guardian2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/guardian3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            -->
 
             <TextView
                 android:id="@+id/setup_time_text"
@@ -133,4 +84,5 @@
                 android:text="@string/cancel_string" />
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

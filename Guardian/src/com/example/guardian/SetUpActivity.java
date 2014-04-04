@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -26,15 +25,9 @@ import java.util.Date;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 public class SetUpActivity extends Activity implements OnItemClickListener,
 		OnItemSelectedListener {
-
-	// private static final int CONTACT_PICKER_RESULT = 1001;
-
-	// //List of Guardian Names
-	// private List<String> nameList = new ArrayList<String>();
 
 	// Initialize variables
 
@@ -85,33 +78,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		// ArrayAdapter used by AutoCompleteTextView
 		new ReadContactsTask().execute();
 
-		/********** Button Click pass textView object ***********/
-		// send.setOnClickListener(buttonListener(textView));
-
 	}
-
-	// private OnClickListener buttonListener(final AutoCompleteTextView
-	// toNumber) {
-	// return new OnClickListener() {
-	// public void onClick(View v) {
-	//
-	// String nameSel = toNumber.getText().toString();
-	// final String ToNumber = toNumberValue;
-	//
-	//
-	// if (ToNumber.length() == 0 ) {
-	// Toast.makeText(getBaseContext(), "Please fill phone number",
-	// Toast.LENGTH_SHORT).show();
-	// }
-	// else
-	// {
-	// Toast.makeText(getBaseContext(), nameSel+" : "+toNumberValue,
-	// Toast.LENGTH_LONG).show();
-	// }
-	//
-	// }
-	// };
-	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,73 +86,6 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		getMenuInflater().inflate(R.menu.set_up, menu);
 		return true;
 	}
-
-	// public void pickGuardians(View view) {
-	// Intent contactPickerIntent = new
-	// Intent(Intent.ACTION_PICK,
-	// Contacts.CONTENT_URI);
-	// startActivityForResult(contactPickerIntent,
-	// CONTACT_PICKER_RESULT);
-	// }
-
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// if (resultCode == RESULT_OK) {
-	// switch (requestCode) {
-	// case CONTACT_PICKER_RESULT:
-	// Cursor cursor = null;
-	// String email = "";
-	// try {
-	// Uri result = data.getData();
-	// Log.v("ContactPicker", "Got a contact result:" + result.toString());
-	//
-	// // get the contact id from the Uri
-	// String id = result.getLastPathSegment();
-	// String whereName = ContactsContract.Data.MIMETYPE + " = ? AND " +
-	// ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ?";
-	// String[] whereNameParams = new String[] {
-	// ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, id};
-	// cursor = getContentResolver().query
-	// (ContactsContract.Data.CONTENT_URI,
-	// null,
-	// whereName,
-	// whereNameParams,
-	// ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-	// //int emailIdx =
-	// cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
-	// // let's just get the first name
-	// if (cursor.moveToNext()) {
-	// //email = cursor.getString(emailIdx);
-	// String display_name =
-	// cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME));
-	// //addItems(display_name);
-	// Log.v("ContactPicker", "Got name: " + display_name);
-	// TextView text = (TextView) findViewById(R.id.textView1);
-	// text.setText(display_name);
-	// }
-	// else {
-	// Log.w("ContactPicker", "No results");
-	// }
-	// } catch (Exception e) {
-	// Log.e("ContactPicker", "Failed to get email data", e);
-	// }
-	// // finally {
-	// // if (cursor != null) {
-	// // cursor.close();
-	// // }
-	// // EditText emailEntry = (EditText) findViewById(R.id.invite_email);
-	// // emailEntry.setText(email);
-	// // if (email.length() == 0) {
-	// // Toast.makeText(this, "No email found for contact.",
-	// Toast.LENGTH_LONG).show();
-	// // }
-	// // }
-	// break;
-	// }
-	// } else {
-	// Log.w("ContactPicker", "Warning: activity result not ok");
-	// }
-	// }
 
 	/**
 	 * Starts the background tracking tasks and sends the user to the view map
@@ -210,9 +110,6 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		endDate += (hour * 60 * 60 * 1000) + (minutes * 60 * 1000);
 
-		// Log.d("Start Date ~~~~~~~~~~~~~~~~", startDate.toString());
-		// Log.d("End Date ~~~~~~~~~~~~~~~~", String.valueOf(endDate));
-
 		SessionManager.SESSION.setGuardians(guardians);
 		RESTfulCommunicator.createSession(startDate, endDate,
 				SessionManager.SESSION.getGuardians());
@@ -233,7 +130,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		protected Void doInBackground(Void... arg0) {
 
 			readContactData();
-			TextView contactsText = (TextView) findViewById(R.id.setup_contacts_textview);
+			AutoCompleteTextView contactsText = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
 			contactsText.setClickable(true);
 			return null;
 		}
@@ -375,39 +272,8 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 				guardians.add(new Guardian(arg0.getItemAtPosition(arg2)
 						.toString(), toNumberValue));
 
-			// Toast.makeText(getBaseContext(),
-			// "Position:" + arg2 + " Name:" + arg0.getItemAtPosition(arg2) +
-			// " Number:" + toNumberValue + " Email: "
-			// + toEmailValue,
-			// Toast.LENGTH_LONG).show();
-
-			// Log.d("Size of Array: ", Integer.toString(phoneValueArr.size()));
-
 		}
 
 	}
-
-	// public void pickGuardians(View view) {
-	//
-	// AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-	// builder1.setTitle("Pick a Guardian to track you.")
-	// .setMultiChoiceItems(R.array.guardians, null,
-	// new DialogInterface.OnMultiChoiceClickListener() {
-	//
-	// @Override
-	// public void onClick(DialogInterface dialog,
-	// int which, boolean isChecked) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	// })
-	// .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface dialog, int id) {
-	// // Nothing, just die. Haha
-	// }
-	// });
-	// AlertDialog alert = builder1.create();
-	// alert.show();
-	// }
 
 }
