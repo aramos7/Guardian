@@ -1,5 +1,6 @@
 package com.example.guardian;
 
+import android.location.Location;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -97,24 +98,52 @@ public class RESTfulCommunicator {
         thread.start();
 	}
 
-	public static Guardian[] getUserGuardians(String email, String password) {
-		return null;
-	}
+    /**
+     * Post request to send Locations of the user
+     */
+    public static void postLocation (final Location location)
+    {
+        Thread t = new Thread() {
 
-	public JSONArray getResponse(HttpResponse response)
-			throws UnsupportedEncodingException, IllegalStateException,
-			IOException, JSONException {
-		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				response.getEntity().getContent(), "UTF-8"));
-		StringBuilder builder = new StringBuilder();
-		for (String line = null; (line = reader.readLine()) != null;) {
-			builder.append(line).append("\n");
-		}
-		JSONTokener tokener = new JSONTokener(builder.toString());
-		JSONArray finalResult = new JSONArray(tokener);
-		return finalResult;
-	}
+            public void run() {
+                // Create a new HttpClient and Post Header
+                String resource = "api/updateLocationsArrayForSession/";
+                resource += SessionManager.SESSION.getSessionId();
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(BASE_URL + resource);
+                JSONObject json = new JSONObject();
+
+                try {
+                    // Add your data
+                    Log.d("Latitude", Double.toString(location.getLatitude()));
+                    Log.d("Longitude", Double.toString(location.getLongitude()));
+                    Log.d("timeStamp", Long.toString(System.currentTimeMillis()));
+
+                    JSONObject info = new JSONObject();
+                    info.put("latitude", location.getLatitude());
+                    info.put("longitude", location.getLongitude());
+                    info.put("timeStamp", System.currentTimeMillis());
+
+                    json.put("location", info);
+
+                    //Setting the entities and content
+                    StringEntity se = new StringEntity(json.toString());
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    httppost.setEntity(se);
+
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost, SessionManager.SESSION.getHttpContext());
+                    JSONObject curr = httpResponseToJSONObject(response);
+
+                    Log.d("Response ~~~~~~~", curr.toString());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
 
     /**
      * Post request to create a session for the user
@@ -163,9 +192,7 @@ public class RESTfulCommunicator {
                     JSONObject curr = httpResponseToJSONObject(response);
 
                     //Save the JSON response
-                    Log.d("Response ~~~~~~~", curr.toString());
                     SessionManager.SESSION.setSessionID(curr.getString("_id"));
-                    Log.d("Session ID", curr.getString("_id"));
 
                 } catch (ClientProtocolException e) {
                     // TODO Auto-generated catch block
