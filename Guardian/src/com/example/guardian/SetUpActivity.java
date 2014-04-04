@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -25,159 +25,67 @@ import java.util.Date;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
+public class SetUpActivity extends Activity implements OnItemClickListener,
+		OnItemSelectedListener {
 
-public class SetUpActivity extends Activity implements OnItemClickListener, OnItemSelectedListener {
+	// Initialize variables
 
-    //private static final int CONTACT_PICKER_RESULT = 1001;
+	AutoCompleteTextView textView = null;
+	private ArrayAdapter<String> adapter;
 
-//    //List of Guardian Names
-//    private List<String> nameList = new ArrayList<String>();
+	// Store contacts values in these arraylist
+	public static ArrayList<String> phoneValueArr = new ArrayList<String>();
+	public static ArrayList<String> nameValueArr = new ArrayList<String>();
+	public static ArrayList<String> emailValueArr = new ArrayList<String>();
 
-    // Initialize variables
+	// EditText toNumber=null;
+	String toNumberValue = "";
+	String toEmailValue = "";
 
-    AutoCompleteTextView textView=null;
-    private ArrayAdapter<String> adapter;
+	public static ArrayList<Guardian> guardians;
 
-    // Store contacts values in these arraylist
-    public static ArrayList<String> phoneValueArr = new ArrayList<String>();
-    public static ArrayList<String> nameValueArr = new ArrayList<String>();
-    public static ArrayList<String> emailValueArr = new ArrayList<String>();
+	// Linear Layout for adding Guardians
+	LinearLayout layoutGuardians;
 
-    //EditText toNumber=null;
-    String toNumberValue="";
-    String toEmailValue="";
-
-    public static ArrayList<Guardian> guardians;
-
-    //Linear Layout for adding Guardians
-    LinearLayout layoutGuardians;
-
-
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_up);
-        //final Button send = (Button) findViewById(R.id.send);
+		setContentView(R.layout.activity_set_up);
+		// final Button send = (Button) findViewById(R.id.send);
 
-        // Initialize AutoCompleteTextView values
-        textView = (AutoCompleteTextView) findViewById(R.id.toNumber);
+		// Initialize AutoCompleteTextView values
+		textView = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
 
-        //Create adapter
-        adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
-        textView.setThreshold(1);
+		// Create adapter
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_dropdown_item_1line,
+				new ArrayList<String>());
+		textView.setThreshold(1);
 
-        //Set adapter to AutoCompleteTextView
-        textView.setAdapter(adapter);
-        textView.setOnItemSelectedListener(this);
-        textView.setOnItemClickListener(this);
+		// Set adapter to AutoCompleteTextView
+		textView.setAdapter(adapter);
+		textView.setOnItemSelectedListener(this);
+		textView.setOnItemClickListener(this);
 
-        //Initialize guardians array
-        guardians = new ArrayList<Guardian>();
+		// Initialize guardians array
+		guardians = new ArrayList<Guardian>();
 
-        //Linear Layout for Guardians
-        layoutGuardians = (LinearLayout) findViewById(R.id.guardianLayout);
+		// Linear Layout for Guardians
+		layoutGuardians = (LinearLayout) findViewById(R.id.guardianLayout);
 
-        // Read contact data and add data to ArrayAdapter
-        // ArrayAdapter used by AutoCompleteTextView
-        readContactData();
+		// Read contact data and add data to ArrayAdapter
+		// ArrayAdapter used by AutoCompleteTextView
+		new ReadContactsTask().execute();
 
-        /********** Button Click pass textView object ***********/
-        //send.setOnClickListener(buttonListener(textView));
+	}
 
-    }
-
-//    private OnClickListener buttonListener(final AutoCompleteTextView toNumber) {
-//        return new OnClickListener() {
-//            public void onClick(View v) {
-//
-//                String nameSel = toNumber.getText().toString();
-//                final String ToNumber = toNumberValue;
-//
-//
-//                if (ToNumber.length() == 0 ) {
-//                    Toast.makeText(getBaseContext(), "Please fill phone number",
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getBaseContext(), nameSel+" : "+toNumberValue,
-//                            Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//        };
-//    }
-
-    @Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.set_up, menu);
 		return true;
 	}
-
-//    public void pickGuardians(View view) {
-//        Intent contactPickerIntent = new
-//                Intent(Intent.ACTION_PICK,
-//                Contacts.CONTENT_URI);
-//                startActivityForResult(contactPickerIntent,
-//                CONTACT_PICKER_RESULT);
-//    }
-
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK) {
-//            switch (requestCode) {
-//                case CONTACT_PICKER_RESULT:
-//                    Cursor cursor = null;
-//                    String email = "";
-//                    try {
-//                        Uri result = data.getData();
-//                        Log.v("ContactPicker", "Got a contact result:" + result.toString());
-//
-//                        // get the contact id from the Uri
-//                        String id = result.getLastPathSegment();
-//                        String whereName = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ?";
-//                        String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, id};
-//                        cursor = getContentResolver().query
-//                                (ContactsContract.Data.CONTENT_URI,
-//                                 null,
-//                                 whereName,
-//                                 whereNameParams,
-//                                 ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-//                        //int emailIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
-//                        // let's just get the first name
-//                        if (cursor.moveToNext()) {
-//                            //email = cursor.getString(emailIdx);
-//                            String display_name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME));
-//                            //addItems(display_name);
-//                            Log.v("ContactPicker", "Got name: " + display_name);
-//                            TextView text = (TextView) findViewById(R.id.textView1);
-//                            text.setText(display_name);
-//                        }
-//                        else {
-//                            Log.w("ContactPicker", "No results");
-//                        }
-//                    } catch (Exception e) {
-//                        Log.e("ContactPicker", "Failed to get email data", e);
-//                    }
-////                    finally {
-////                        if (cursor != null) {
-////                            cursor.close();
-////                        }
-////                        EditText emailEntry = (EditText) findViewById(R.id.invite_email);
-////                        emailEntry.setText(email);
-////                        if (email.length() == 0) {
-////                            Toast.makeText(this, "No email found for contact.", Toast.LENGTH_LONG).show();
-////                        }
-////                    }
-//                    break;
-//            }
-//        } else {
-//            Log.w("ContactPicker", "Warning: activity result not ok");
-//        }
-//    }
 
 	/**
 	 * Starts the background tracking tasks and sends the user to the view map
@@ -188,25 +96,23 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
 	public void startTracking(View view) {
 		Intent intent = new Intent(this, ViewMapActivity.class);
 
-        CalendarView calendar = (CalendarView) findViewById(R.id.set_up_calendar);
-        TimePicker timer = (TimePicker) findViewById(R.id.setup_time_picker);
+		CalendarView calendar = (CalendarView) findViewById(R.id.set_up_calendar);
+		TimePicker timer = (TimePicker) findViewById(R.id.setup_time_picker);
 
-        //Getting variables form the intent via user input
-        long endDate = calendar.getDate();
-        int hour = timer.getCurrentHour();
-        int minutes = timer.getCurrentMinute();
+		// Getting variables form the intent via user input
+		long endDate = calendar.getDate();
+		int hour = timer.getCurrentHour();
+		int minutes = timer.getCurrentMinute();
 
-        //Start date
-        Date start = new Date();
-        Long startDate = start.getTime();
+		// Start date
+		Date start = new Date();
+		Long startDate = start.getTime();
 
-        endDate += (hour * 60 * 60 * 1000) + (minutes * 60 * 1000);
+		endDate += (hour * 60 * 60 * 1000) + (minutes * 60 * 1000);
 
-//        Log.d("Start Date ~~~~~~~~~~~~~~~~", startDate.toString());
-//        Log.d("End Date ~~~~~~~~~~~~~~~~", String.valueOf(endDate));
-
-        SessionManager.SESSION.setGuardians(guardians);
-        RESTfulCommunicator.createSession(startDate, endDate, SessionManager.SESSION.getGuardians());
+		SessionManager.SESSION.setGuardians(guardians);
+		RESTfulCommunicator.createSession(startDate, endDate,
+				SessionManager.SESSION.getGuardians());
 		startActivity(intent);
 	}
 
@@ -216,176 +122,158 @@ public class SetUpActivity extends Activity implements OnItemClickListener, OnIt
 		startActivity(intent);
 	}
 
-    // Read phone contact name and phone numbers
+	// Read phone contact name and phone numbers
 
-    private void readContactData() {
+	private class ReadContactsTask extends AsyncTask<Void, Void, Void> {
 
-        try {
+		@Override
+		protected Void doInBackground(Void... arg0) {
 
-            //Reading the name and number for a contact
+			readContactData();
+			AutoCompleteTextView contactsText = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
+			contactsText.setClickable(true);
+			return null;
+		}
 
-            String phoneNumber = "";
-            String email = "";
-            ContentResolver cr = getBaseContext().getContentResolver();
+	} // End ReadContactsTask
 
-            //Query to get contact name
-            Cursor cur = cr.query(
-                            ContactsContract.Contacts.CONTENT_URI,
-                            null,
-                            null,
-                            null,
-                            null);
+	private void readContactData() {
 
-            // If data data found in contacts
-            if (cur.getCount() > 0) {
+		try {
 
-                Log.i("AutocompleteContacts", "Reading contacts........");
-                int k = 0;
-                String name = "";
+			// Reading the name and number for a contact
 
-                while (cur.moveToNext())
-                {
+			String phoneNumber = "";
+			String email = "";
+			ContentResolver cr = getBaseContext().getContentResolver();
 
-                    String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                    name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+			// Query to get contact name
+			Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
+					null, null, null);
 
-                    //Check if contact has a phone number
-                    if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0)
-                    {
-                        //Create query to get phone number by contact id
-                        Cursor pCur = cr.query(
-                                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                        null,
-                                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID+ " = ?",
-                                        new String[] { id },
-                                        null);
+			// If data data found in contacts
+			if (cur.getCount() > 0) {
 
-                        int j=0;
-                        while (pCur.moveToNext())
-                        {
-                            // Sometimes get multiple data
-                            if(j==0)
-                            {
-                                // Get Phone number
-                                phoneNumber = "" + pCur.getString(pCur
-                                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                email = "";
-                                Cursor eCur = cr.query(
-                                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                                        null,
-                                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
-                                        new String[]{id},
-                                        null);
-                                while (eCur.moveToNext())
-                                {
-                                    email = eCur.getString(eCur
-                                          .getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                                }
-                                eCur.close();
-                                // Add contacts names to adapter
-                                adapter.add(name);
+				Log.i("AutocompleteContacts", "Reading contacts........");
+				int k = 0;
+				String name = "";
 
-                                // Add ArrayList names to adapter
-                                //Adds "" in case email does not exist
-                                emailValueArr.add(email.toString());
-                                phoneValueArr.add(phoneNumber.toString());
-                                nameValueArr.add(name.toString());
-                                //Log.d("Details: ", name.toString() + " : " + phoneNumber.toString() + " : " + email.toString());
+				while (cur.moveToNext()) {
 
-                                j++;
-                                k++;
-                            }
-                        }  // End while loop
-                        pCur.close();
+					String id = cur.getString(cur
+							.getColumnIndex(ContactsContract.Contacts._ID));
+					name = cur
+							.getString(cur
+									.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
+					// Check if contact has a phone number
+					if (Integer
+							.parseInt(cur.getString(cur
+									.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+						// Create query to get phone number by contact id
+						Cursor pCur = cr
+								.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+										null,
+										ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+												+ " = ?", new String[] { id },
+										null);
 
-                    } // End if
-                }  // End while loop
+						int j = 0;
+						while (pCur.moveToNext()) {
+							// Sometimes get multiple data
+							if (j == 0) {
+								// Get Phone number
+								phoneNumber = ""
+										+ pCur.getString(pCur
+												.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+								email = "";
+								Cursor eCur = cr
+										.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+												null,
+												ContactsContract.CommonDataKinds.Email.CONTACT_ID
+														+ " = ?",
+												new String[] { id }, null);
+								while (eCur.moveToNext()) {
+									email = eCur
+											.getString(eCur
+													.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+								}
+								eCur.close();
+								// Add contacts names to adapter
+								adapter.add(name);
 
-            } // End Cursor value check
-            cur.close();
+								// Add ArrayList names to adapter
+								// Adds "" in case email does not exist
+								emailValueArr.add(email.toString());
+								phoneValueArr.add(phoneNumber.toString());
+								nameValueArr.add(name.toString());
+								// Log.d("Details: ", name.toString() + " : " +
+								// phoneNumber.toString() + " : " +
+								// email.toString());
 
+								j++;
+								k++;
+							}
+						} // End while loop
+						pCur.close();
 
-        } catch (Exception e) {
-            Log.i("AutocompleteContacts","Exception : "+ e);
-        }
-    }
+					} // End if
+				} // End while loop
 
-    @Override
-    public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
-                               long arg3) {
-        // TODO Auto-generated method stub
-        //Log.d("AutocompleteContacts", "onItemSelected() position " + position);
-    }
+			} // End Cursor value check
+			cur.close();
 
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
+		} catch (Exception e) {
+			Log.i("AutocompleteContacts", "Exception : " + e);
+		}
+	}
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(
-                INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+			long arg3) {
+		// TODO Auto-generated method stub
+		// Log.d("AutocompleteContacts", "onItemSelected() position " +
+		// position);
+	}
 
-    }
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
 
-    @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        // TODO Auto-generated method stub
+		InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-        // Get Array index value for selected name
-        int i = nameValueArr.indexOf(""+arg0.getItemAtPosition(arg2));
+	}
 
-        // If name exist in name ArrayList
-        if (i >= 0) {
-            // Get Phone Number
-            toNumberValue = phoneValueArr.get(i);
-            toEmailValue = emailValueArr.get(i);
-            InputMethodManager imm = (InputMethodManager) getSystemService(
-                    INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
 
-            // Show Alert
-            TextView text = new TextView(this);
-            text.setText(arg0.getItemAtPosition(arg2).toString());
-            layoutGuardians.addView(text);
+		// Get Array index value for selected name
+		int i = nameValueArr.indexOf("" + arg0.getItemAtPosition(arg2));
 
-            if (!toEmailValue.equals(""))
-                guardians.add(new Guardian(arg0.getItemAtPosition(arg2).toString(), toEmailValue, toNumberValue));
-            else
-                guardians.add(new Guardian(arg0.getItemAtPosition(arg2).toString(), toNumberValue));
+		// If name exist in name ArrayList
+		if (i >= 0) {
+			// Get Phone Number
+			toNumberValue = phoneValueArr.get(i);
+			toEmailValue = emailValueArr.get(i);
+			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-//            Toast.makeText(getBaseContext(),
-//                    "Position:" + arg2 + " Name:" + arg0.getItemAtPosition(arg2) + " Number:" + toNumberValue + " Email: "
-//                    + toEmailValue,
-//                    Toast.LENGTH_LONG).show();
+			// Show Alert
+			TextView text = new TextView(this);
+			text.setText(arg0.getItemAtPosition(arg2).toString());
+			layoutGuardians.addView(text);
 
-            //Log.d("Size of Array: ", Integer.toString(phoneValueArr.size()));
+			if (!toEmailValue.equals(""))
+				guardians.add(new Guardian(arg0.getItemAtPosition(arg2)
+						.toString(), toEmailValue, toNumberValue));
+			else
+				guardians.add(new Guardian(arg0.getItemAtPosition(arg2)
+						.toString(), toNumberValue));
 
-        }
+		}
 
-    }
-
-//    public void pickGuardians(View view) {
-//
-//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//        builder1.setTitle("Pick a Guardian to track you.")
-//                .setMultiChoiceItems(R.array.guardians, null,
-//                        new DialogInterface.OnMultiChoiceClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog,
-//                                                int which, boolean isChecked) {
-//                                // TODO Auto-generated method stub
-//
-//                            }
-//                        })
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // Nothing, just die. Haha
-//                    }
-//                });
-//        AlertDialog alert = builder1.create();
-//        alert.show();
-//    }
+	}
 
 }
