@@ -31,6 +31,8 @@
     <string name="title_activity_view_map">ViewMapActivity</string>
     <string name="hello_world">Hello world!</string>
     
+    <string name="type_name">Type friend\'s name</string>
+    
     <string name="view_map_title">Map Tracking</string>
 
 </resources>
