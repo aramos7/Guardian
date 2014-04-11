@@ -57,6 +57,9 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		// Initialize AutoCompleteTextView values
 		textView = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
 
+		// Set it to be unclickable
+		textView.setClickable(false);
+		
 		// Create adapter
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line,
