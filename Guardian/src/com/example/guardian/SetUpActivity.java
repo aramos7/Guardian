@@ -2,6 +2,7 @@ package com.example.guardian;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +44,8 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 	// EditText toNumber=null;
 	String toNumberValue = "";
 	String toEmailValue = "";
+	
+	Toast loading_contacts_toast;
 
 	public static ArrayList<Guardian> guardians;
 
@@ -58,8 +62,8 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		textView = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
 
 		// Set it to be unclickable
-		textView.setClickable(false);
-		
+		textView.setEnabled(false);
+
 		// Create adapter
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line,
@@ -76,7 +80,14 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		// Linear Layout for Guardians
 		layoutGuardians = (LinearLayout) findViewById(R.id.guardianLayout);
+		
 
+		Context context = getApplicationContext();
+		CharSequence text = "Loading Contacts";
+		int duration = Toast.LENGTH_LONG;
+		loading_contacts_toast = Toast.makeText(context, text, duration);
+		loading_contacts_toast.show();
+		
 		// Read contact data and add data to ArrayAdapter
 		// ArrayAdapter used by AutoCompleteTextView
 		new ReadContactsTask().execute();
@@ -133,8 +144,6 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		protected Void doInBackground(Void... arg0) {
 
 			readContactData();
-			AutoCompleteTextView contactsText = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
-			contactsText.setClickable(true);
 			return null;
 		}
 
@@ -145,7 +154,6 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		try {
 
 			// Reading the name and number for a contact
-
 			String phoneNumber = "";
 			String email = "";
 			ContentResolver cr = getBaseContext().getContentResolver();
@@ -225,6 +233,9 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 			} // End Cursor value check
 			cur.close();
+			loading_contacts_toast.cancel();
+			AutoCompleteTextView contactsText = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
+			contactsText.setEnabled(true);
 
 		} catch (Exception e) {
 			Log.i("AutocompleteContacts", "Exception : " + e);

@@ -68,6 +68,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="54dp"
+        android:contentDescription="Guardian Logo"
         android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
