@@ -50,7 +50,11 @@
             android:name="com.example.guardian.ViewMapActivity"
             android:label="@string/view_map_title" >
         </activity>
-        <service android:enabled="true" android:name=".LocationService" />
+        <service
+            android:name=".LocationService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

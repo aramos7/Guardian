@@ -16,6 +16,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+        if (!RESTfulCommunicator.cookieStore.toString().equals("[]")) {
+            Intent intent = new Intent(this, ViewMapActivity.class);
+            startActivity(intent);
+            finish();
+        }
 	}
 
 	@Override

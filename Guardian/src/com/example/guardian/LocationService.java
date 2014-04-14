@@ -1,5 +1,7 @@
 package com.example.guardian;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
@@ -49,7 +51,25 @@ public class LocationService extends Service {
 
         //Location Manager
         locMgr = (LocationManager)getSystemService(LOCATION_SERVICE);
-        locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, onLocationChange);
+        locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, onLocationChange);
+
+        Notification note=new Notification(R.drawable.ic_launcher,
+                "Session Started",
+                System.currentTimeMillis());
+        Intent i = new Intent(this, ViewMapActivity.class);
+
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pi=PendingIntent.getActivity(this, 0,
+                i, 0);
+
+        note.setLatestEventInfo(this, "Fake Player",
+                "Now Playing: \"Ummmm, Nothing\"",
+                pi);
+        note.flags|=Notification.FLAG_NO_CLEAR;
+
+        startForeground(1337, note);
     }
 
     @Override
@@ -58,14 +78,6 @@ public class LocationService extends Service {
         Log.d(TAG, "onDestroy");
 
         locMgr.removeUpdates(onLocationChange);
-    }
-
-    @Override
-    public void onStart(Intent intent, int startid) {
-        Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onStart");
-
-        //locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, onLocationChange);
     }
 
     private void updateLocation(Location loc) {

@@ -1,5 +1,9 @@
 package com.example.guardian;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceActivity;
+
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
@@ -12,7 +16,7 @@ import java.util.ArrayList;
  * @author Death (Armando Ramos)
  * @date Feb. 28, 2014
  */
-public class SessionManager {
+public class SessionManager extends PreferenceActivity {
 	
 	public static SessionManager SESSION = null;
     private String sessionID;
@@ -20,15 +24,16 @@ public class SessionManager {
 	private String password;
 	private String email;
 	private String name;
-	private boolean validated;
+	private boolean validated = false;
 	private ArrayList<Guardian> guardians;
 	private String address;
     private HttpContext httpContext;
     private long endDate;
     private long startDate;
+    //SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 	
-	public SessionManager(String username, String password, boolean validated) {
-		this.username = username;
+	public SessionManager(String email, String password, boolean validated) {
+		this.email = email;
 		this.password = password;
 		this.validated = validated;
         sessionID = "";
@@ -40,7 +45,7 @@ public class SessionManager {
         validated = input;
     }
 	
-	public boolean isItValidated() {
+	public boolean getValidated() {
 		return validated;
 	}
 	
@@ -75,5 +80,7 @@ public class SessionManager {
         return sessionID;
     }
 	
-	
+//	public SharedPreferences getSp() {
+//        return sp;
+//    }
 }

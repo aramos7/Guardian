@@ -1,9 +1,15 @@
 package com.example.guardian;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -37,12 +43,12 @@ import org.json.JSONTokener;
  * @author Death (Armando Ramos)
  * @date Feb. 28, 2014
  */
-public class RESTfulCommunicator {
+public class RESTfulCommunicator extends PreferenceActivity {
 
 	private final static String BASE_URL = "https://guardian-11570.onmodulus.net/";
     public static BasicCookieStore cookieStore = new BasicCookieStore();
 
-	/**
+    /**
 	 * Determines whether a credential is valid or not.
 	 * 
 	 * @param email
@@ -62,6 +68,7 @@ public class RESTfulCommunicator {
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(BASE_URL + "api/login");
                     HttpContext httpContext = new BasicHttpContext();
+                    //Log.d("Cookie store", cookieStore.toString());
 
                     httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 
@@ -79,6 +86,10 @@ public class RESTfulCommunicator {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("session_id", responseStr);
                         SessionManager.SESSION.setHttpContext(httpContext);
+                        SessionManager.SESSION.setValidated(true);
+
+                        //Log.d("Cookie store after login", cookieStore.toString());
+
                         if (handler != null) {
                             handler.onSuccess(jsonObject);
                         }
@@ -127,9 +138,19 @@ public class RESTfulCommunicator {
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                     httppost.setEntity(se);
 
+                    JSONObject curr = null;
+
                     // Execute HTTP Post Request
-                    HttpResponse response = httpclient.execute(httppost, SessionManager.SESSION.getHttpContext());
-                    JSONObject curr = httpResponseToJSONObject(response);
+                    if (SessionManager.SESSION.getValidated()) {
+                        HttpResponse response = httpclient.execute(httppost, SessionManager.SESSION.getHttpContext());
+                        curr = httpResponseToJSONObject(response);
+                    }
+                    else {
+                        HttpContext httpContext = new BasicHttpContext();
+                        httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+                        HttpResponse response = httpclient.execute(httppost, httpContext);
+                        curr = httpResponseToJSONObject(response);
+                    }
 
                     Log.d("Response ~~~~~~~", curr.toString());
 
