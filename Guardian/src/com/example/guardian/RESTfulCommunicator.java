@@ -115,10 +115,6 @@ public class RESTfulCommunicator {
 
                 try {
                     // Add your data
-                    Log.d("Latitude", Double.toString(location.getLatitude()));
-                    Log.d("Longitude", Double.toString(location.getLongitude()));
-                    Log.d("timeStamp", Long.toString(System.currentTimeMillis()));
-
                     JSONObject info = new JSONObject();
                     info.put("latitude", location.getLatitude());
                     info.put("longitude", location.getLongitude());
@@ -174,6 +170,7 @@ public class RESTfulCommunicator {
                     JSONArray guardiansJSON = new JSONArray();
                     for (Guardian g: guardians) {
                         JSONObject gContact = new JSONObject();
+                        gContact.put("name", g.getName());
                         gContact.put("phone", g.getPhoneNumber());
                         gContact.put("email", g.getEmail());
                         gContact.put("status", "pending");
@@ -193,6 +190,7 @@ public class RESTfulCommunicator {
 
                     //Save the JSON response
                     SessionManager.SESSION.setSessionID(curr.getString("_id"));
+                    Log.d("Session ID", curr.getString("_id"));
 
                 } catch (ClientProtocolException e) {
                     // TODO Auto-generated catch block
