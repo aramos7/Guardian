@@ -1,18 +1,12 @@
 package com.example.guardian;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.location.Location;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +15,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.entity.StringEntity;
@@ -43,7 +38,7 @@ import org.json.JSONTokener;
  * @author Death (Armando Ramos)
  * @date Feb. 28, 2014
  */
-public class RESTfulCommunicator extends PreferenceActivity {
+public class RESTfulCommunicator {
 
 	private final static String BASE_URL = "https://guardian-11570.onmodulus.net/";
     public static BasicCookieStore cookieStore = new BasicCookieStore();
@@ -140,19 +135,12 @@ public class RESTfulCommunicator extends PreferenceActivity {
 
                     JSONObject curr = null;
 
-                    // Execute HTTP Post Request
-                    if (SessionManager.SESSION.getValidated()) {
-                        HttpResponse response = httpclient.execute(httppost, SessionManager.SESSION.getHttpContext());
-                        curr = httpResponseToJSONObject(response);
-                    }
-                    else {
-                        HttpContext httpContext = new BasicHttpContext();
-                        httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-                        HttpResponse response = httpclient.execute(httppost, httpContext);
-                        curr = httpResponseToJSONObject(response);
-                    }
+                    HttpContext httpContext = new BasicHttpContext();
+                    httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+                    HttpResponse response = httpclient.execute(httppost, httpContext);
+                    curr = httpResponseToJSONObject(response);
 
-                    Log.d("Response ~~~~~~~", curr.toString());
+                    //Log.d("Response ~~~~~~~", curr.toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -211,12 +199,50 @@ public class RESTfulCommunicator extends PreferenceActivity {
 
                     //Save the JSON response
                     SessionManager.SESSION.setSessionID(curr.getString("_id"));
+                    //Save session ID in shared preference
+                    //SessionManager.SESSION.saveSessionID(curr.getString("_id"));
                     Log.d("Session ID", curr.getString("_id"));
 
                 } catch (ClientProtocolException e) {
                     // TODO Auto-generated catch block
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    /**
+     * Get Session request
+     */
+    public static void getSession()
+    {
+        Thread t = new Thread() {
+            public void run() {
+                // Create a new HttpClient and Post Header
+                String resource = "api/getSession/";
+
+                //Getting session ID from shared preferences when you have logged in and you reopen the app
+                String sessionID = SessionManager.SESSION.getSessionId();
+                resource += sessionID;
+
+                try {
+                    HttpClient httpclient = new DefaultHttpClient();
+
+                    HttpGet request = new HttpGet();
+                    URI website = new URI(BASE_URL + resource);
+                    request.setURI(website);
+                    HttpResponse response = httpclient.execute(request);
+
+                    JSONObject curr = httpResponseToJSONObject(response);
+                    Log.d("Get Session Response ~~~~~~~", curr.toString());
+
+                    //Validate the login session the service should be running
+                    SessionManager.SESSION.setValidated(true);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -243,6 +269,8 @@ public class RESTfulCommunicator extends PreferenceActivity {
                         Log.d("Session Removed", "~~~~~~~~~");
                         //Find way to eliminate session
                         SessionManager.SESSION.setSessionID("");
+                        //Delete Session form shared prefs
+                        //SessionManager.SESSION.deleteSessionID();
                     }
 
                 } catch (ClientProtocolException e) {

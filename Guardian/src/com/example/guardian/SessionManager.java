@@ -30,7 +30,6 @@ public class SessionManager extends PreferenceActivity {
     private HttpContext httpContext;
     private long endDate;
     private long startDate;
-    //SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 	
 	public SessionManager(String email, String password, boolean validated) {
 		this.email = email;
@@ -76,11 +75,25 @@ public class SessionManager extends PreferenceActivity {
         sessionID = input;
     }
 
+//    public void saveSessionID(String input) {
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("_id", input);
+//        editor.commit();
+//    }
+//
+//
+//    public void deleteSessionID() {
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.remove("_id");
+//        editor.commit();
+//    }
+//
+//    public String getSessionIdFromSp() {
+//        String retVal = sp.getString("_id", "");
+//        return retVal;
+//    }
+
     public String getSessionId() {
         return sessionID;
     }
-	
-//	public SharedPreferences getSp() {
-//        return sp;
-//    }
 }
