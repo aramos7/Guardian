@@ -225,14 +225,13 @@ containing a value of this type.
         public static final int maps_image=0x7f02001d;
     }
     public static final class id {
-        public static final int action_settings=0x7f050020;
-        public static final int button1=0x7f05001e;
-        public static final int button2=0x7f05001f;
+        public static final int action_settings=0x7f05001f;
+        public static final int button1=0x7f05001d;
+        public static final int button2=0x7f05001e;
         public static final int create_account_button=0x7f050012;
         public static final int guardianLayout=0x7f05001a;
         public static final int hybrid=0x7f050004;
         public static final int imageView1=0x7f05000a;
-        public static final int locationsLayout=0x7f05001d;
         public static final int loginButton=0x7f050008;
         public static final int login_activity_title=0x7f050007;
         public static final int login_password_textbox=0x7f050005;

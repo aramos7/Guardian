@@ -141,10 +141,11 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		Long startDate = start.getTime();
 
 		endDate += (hour * 60 * 60 * 1000) + (minutes * 60 * 1000);
-		
+
 		if (endDate <= startDate) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("Your session must end after today at this time.")
+			builder.setMessage(
+					"Your session must end after today at this time.")
 					.setCancelable(false)
 					.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
@@ -353,16 +354,25 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 			// Use the current time as the default values for the picker
-			final Calendar c = Calendar.getInstance();
-			int hour = c.get(Calendar.HOUR_OF_DAY);
-			int minute = c.get(Calendar.MINUTE);
+			int hour, minute;
+
+			if (SetUpActivity.hour == -1 || SetUpActivity.minutes == -1) {
+				final Calendar c = Calendar.getInstance();
+				hour = c.get(Calendar.HOUR_OF_DAY);
+				minute = c.get(Calendar.MINUTE);
+			} else {
+				hour = SetUpActivity.hour;
+				minute = SetUpActivity.minutes;
+			}
 
 			// Create a new instance of TimePickerDialog and return it
 			return new TimePickerDialog(getActivity(), this, hour, minute,
 					DateFormat.is24HourFormat(getActivity()));
 		}
 
+		@Override
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
 			SetUpActivity.hour = hourOfDay;
@@ -415,11 +425,23 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 			// Use the current date as the default date in the picker
+			int year, month, day;
 			final Calendar c = Calendar.getInstance();
-			int year = c.get(Calendar.YEAR);
-			int month = c.get(Calendar.MONTH);
-			int day = c.get(Calendar.DAY_OF_MONTH);
+
+			if (SetUpActivity.date == -1) {
+
+				year = c.get(Calendar.YEAR);
+				month = c.get(Calendar.MONTH);
+				day = c.get(Calendar.DAY_OF_MONTH);
+			} else {
+
+				c.setTime(new Date(date));
+				year = c.get(Calendar.YEAR);
+				month = c.get(Calendar.MONTH);
+				day = c.get(Calendar.DAY_OF_MONTH);
+			}
 
 			// Create a new instance of DatePickerDialog and return it
 			return new DatePickerDialog(getActivity(), this, year, month, day);
