@@ -319,7 +319,6 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 			else
 				guardians.add(new Guardian(arg0.getItemAtPosition(arg2)
 						.toString(), toNumberValue));
-
 		}
 
 	}
