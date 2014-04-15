@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string-array name="guardians">
-        <item>Maria del Carmen</item>
-        <item>Bob Driver</item>
-        <item>Yael Naor</item>
-    </string-array>
-</resources>
