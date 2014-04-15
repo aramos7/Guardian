@@ -12,6 +12,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by Samarth on 4/13/14.
  */
@@ -19,6 +23,7 @@ public class LocationService extends Service {
 
     private static final String TAG = "Location Service";
     private LocationManager locMgr;
+    Notification note;
 
     LocationListener onLocationChange = new LocationListener() {
         public void onLocationChanged(Location location) {
@@ -51,11 +56,11 @@ public class LocationService extends Service {
 
         //Location Manager
         locMgr = (LocationManager)getSystemService(LOCATION_SERVICE);
-        locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, onLocationChange);
+        locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, onLocationChange);
 
-        Notification note=new Notification(R.drawable.ic_launcher,
+        note = new Notification(R.drawable.ic_launcher,
                 "Session Started",
-                System.currentTimeMillis());
+                SessionManager.SESSION.getStartDate());
         Intent i = new Intent(this, ViewMapActivity.class);
 
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
@@ -64,8 +69,10 @@ public class LocationService extends Service {
         PendingIntent pi=PendingIntent.getActivity(this, 0,
                 i, 0);
 
-        note.setLatestEventInfo(this, "Fake Player",
-                "Now Playing: \"Ummmm, Nothing\"",
+        DateFormat df = new SimpleDateFormat("EEE, d MMM, HH:mm");
+        String date = df.format(Calendar.getInstance().getTime());
+        note.setLatestEventInfo(this, "Session Running",
+                "Last Update: " + date,
                 pi);
         note.flags|=Notification.FLAG_NO_CLEAR;
 
@@ -82,7 +89,27 @@ public class LocationService extends Service {
 
     private void updateLocation(Location loc) {
         try {
+            //Post Location Request
             RESTfulCommunicator.postLocation(loc);
+            note = new Notification(R.drawable.ic_launcher,
+                    "Session Started",
+                    SessionManager.SESSION.getStartDate());
+            Intent i = new Intent(this, ViewMapActivity.class);
+
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            PendingIntent pi=PendingIntent.getActivity(this, 0,
+                    i, 0);
+
+            DateFormat df = new SimpleDateFormat("EEE, d MMM, HH:mm");
+            String date = df.format(Calendar.getInstance().getTime());
+            note.setLatestEventInfo(this, "Session Running",
+                    "Last Update: " + date,
+                    pi);
+            note.flags|=Notification.FLAG_NO_CLEAR;
+
+            startForeground(1337, note);
         }
         catch (Throwable t) {
             android.util.Log.e("SendingLocation", "Exception fetching data", t);

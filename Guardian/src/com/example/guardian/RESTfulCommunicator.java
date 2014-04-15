@@ -82,7 +82,8 @@ public class RESTfulCommunicator {
                         jsonObject.put("session_id", responseStr);
                         SessionManager.SESSION.setHttpContext(httpContext);
                         SessionManager.SESSION.setValidated(true);
-
+                        //Save cookie on login to reuse for the session
+                        SessionManager.SESSION.setCookieStore(cookieStore);
                         //Log.d("Cookie store after login", cookieStore.toString());
 
                         if (handler != null) {
@@ -133,15 +134,22 @@ public class RESTfulCommunicator {
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                     httppost.setEntity(se);
 
-                    JSONObject curr = null;
-
+                    //JSONObject curr = null;
                     HttpContext httpContext = new BasicHttpContext();
-                    httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+                    httpContext.setAttribute(ClientContext.COOKIE_STORE, SessionManager.SESSION.getCookieStore());
                     HttpResponse response = httpclient.execute(httppost, httpContext);
-                    curr = httpResponseToJSONObject(response);
+                    //curr = httpResponseToJSONObject(response);
 
                     //Log.d("Response ~~~~~~~", curr.toString());
-
+                    //Check the response for the update on the app
+                    String responseStr = EntityUtils.toString(response.getEntity());
+                    if (responseStr.equals("true")) {
+                        SessionManager.SESSION.updateLocationsArray(location);
+                    }
+                    else
+                    {
+                        //warn user
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -199,6 +207,8 @@ public class RESTfulCommunicator {
 
                     //Save the JSON response
                     SessionManager.SESSION.setSessionID(curr.getString("_id"));
+                    SessionManager.SESSION.setStartDate(startDate);
+                    SessionManager.SESSION.setEndDate(endDate);
                     //Save session ID in shared preference
                     //SessionManager.SESSION.saveSessionID(curr.getString("_id"));
                     Log.d("Session ID", curr.getString("_id"));
