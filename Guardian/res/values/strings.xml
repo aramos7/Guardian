@@ -35,5 +35,7 @@
     <string name="setup_pick_guardian">Pick a Guardian</string>
     
     <string name="view_map_title">Map Tracking</string>
+    
+    <string name="viewmap_location_string">You were at the following locations:</string>
 
 </resources>

@@ -23,15 +23,16 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 /**
- * Maintains all the information about a session, whether it is valid or not, etc. 
+ * Maintains all the information about a session, whether it is valid or not,
+ * etc.
  * 
  * @author Death (Armando Ramos)
  * @date Feb. 28, 2014
  */
-public class SessionManager extends Observable implements Serializable{
-	
+public class SessionManager extends Observable implements Serializable {
+
 	public static SessionManager SESSION = null;
-    private String sessionID;
+	private String sessionID;
 	private String username;
 	private String password;
 	private String email;
@@ -39,144 +40,158 @@ public class SessionManager extends Observable implements Serializable{
 	private boolean validated = false;
 	private ArrayList<Guardian> guardians;
 	private String address;
-    private HttpContext httpContext;
-    private long endDate;
-    private long startDate;
-    private ArrayList<Location> locationsArray;
-    private final static String SAVE_FILE_NAME = "session-guardian";
-    private BasicCookieStore cookieStore;
-	
+	private HttpContext httpContext;
+	private long endDate;
+	private long startDate;
+	private ArrayList<Location> locationsArray;
+	private final static String SAVE_FILE_NAME = "session-guardian";
+	private BasicCookieStore cookieStore;
+
 	public SessionManager(String email, String password, boolean validated) {
 		this.email = email;
 		this.password = password;
 		this.validated = validated;
-        sessionID = "";
-        httpContext = new BasicHttpContext();
-        guardians = new ArrayList<Guardian>();
-        locationsArray = new ArrayList<Location>();
+		sessionID = "";
+		httpContext = new BasicHttpContext();
+		guardians = new ArrayList<Guardian>();
+		locationsArray = new ArrayList<Location>();
 	}
 
-    public void setValidated(boolean input) {
-        validated = input;
-    }
-	
+	public void setValidated(boolean input) {
+		validated = input;
+	}
+
 	public boolean getValidated() {
 		return validated;
 	}
-	
+
 	public void setGuardians(ArrayList<Guardian> guardians) {
 
-        this.guardians = guardians;
+		this.guardians = guardians;
 	}
-	
+
 	public ArrayList<Guardian> getGuardians() {
 		return guardians;
 	}
-	
+
 	public void addMoreInfo(String email, String address, String name) {
 		this.email = email;
 		this.name = name;
 		this.address = address;
 	}
 
-    public HttpContext getHttpContext() {
-        return httpContext;
-    }
+	public HttpContext getHttpContext() {
+		return httpContext;
+	}
 
-    public void setHttpContext(HttpContext httpContext){
-        this.httpContext = httpContext;
-    }
+	public void setHttpContext(HttpContext httpContext) {
+		this.httpContext = httpContext;
+	}
 
-    public void setSessionID(String input) {
-        sessionID = input;
-    }
+	public void setSessionID(String input) {
+		sessionID = input;
+	}
 
-    public void setCookieStore (BasicCookieStore cookieStore) {
-        this.cookieStore = cookieStore;
-    }
+	public void setCookieStore(BasicCookieStore cookieStore) {
+		this.cookieStore = cookieStore;
+	}
 
-    public BasicCookieStore getCookieStore () {
-        return cookieStore;
-    }
+	public BasicCookieStore getCookieStore() {
+		return cookieStore;
+	}
 
-    public String getSessionId() {
-        return sessionID;
-    }
+	public String getSessionId() {
+		return sessionID;
+	}
 
-    public void setStartDate(long startDate) {
-        this.startDate = startDate;
-    }
+	public void setStartDate(long startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setEndDate(long endDate) {
-        this.endDate = endDate;
-    }
+	public void setEndDate(long endDate) {
+		this.endDate = endDate;
+	}
 
-    public long getStartDate() {
-        return startDate;
-    }
+	public long getStartDate() {
+		return startDate;
+	}
 
-    public long getEndDate() {
-        return endDate;
-    }
+	public long getEndDate() {
+		return endDate;
+	}
 
-    public void updateLocationsArray(Location location) {
-        locationsArray.add(location);
-    }
+	/**
+	 * Updates the array storage of the location and the UI to display the
+	 * information
+	 * 
+	 * @param location
+	 *            Location to use for update
+	 */
+	public void updateLocationsArray(Location location) {
+		locationsArray.add(location);
 
-    public void save(Context context) {
-        this.setChanged();
-        this.notifyObservers();
-        ObjectOutputStream objectOut = null;
-        try {
-            FileOutputStream fileOut = context.openFileOutput(SAVE_FILE_NAME, Activity.MODE_PRIVATE);
-            objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(this);
-            fileOut.getFD().sync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (objectOut != null) {
-                try {
-                    objectOut.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-    }
+		LocationService current = LocationService.current_service;
+		if (current != null) {
+			current.updateUi(location);
+		}
+	}
 
-    public static SessionManager load(Context context) {
-        ObjectInputStream objectIn = null;
-        Object object = null;
-        try {
-            FileInputStream fileIn = context.getApplicationContext().openFileInput(SAVE_FILE_NAME);
-            objectIn = new ObjectInputStream(fileIn);
-            object = objectIn.readObject();
+	public void save(Context context) {
+		this.setChanged();
+		this.notifyObservers();
+		ObjectOutputStream objectOut = null;
+		try {
+			FileOutputStream fileOut = context.openFileOutput(SAVE_FILE_NAME,
+					Activity.MODE_PRIVATE);
+			objectOut = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(this);
+			fileOut.getFD().sync();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (objectOut != null) {
+				try {
+					objectOut.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
 
-        } catch (FileNotFoundException e) {
-            // Do nothing
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (objectIn != null) {
-                try {
-                    objectIn.close();
-                } catch (IOException e) {
-                    // do now
-                }
-            }
-        }
+	public static SessionManager load(Context context) {
+		ObjectInputStream objectIn = null;
+		Object object = null;
+		try {
+			FileInputStream fileIn = context.getApplicationContext()
+					.openFileInput(SAVE_FILE_NAME);
+			objectIn = new ObjectInputStream(fileIn);
+			object = objectIn.readObject();
 
-        return (SessionManager)object;
-    }
+		} catch (FileNotFoundException e) {
+			// Do nothing
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (objectIn != null) {
+				try {
+					objectIn.close();
+				} catch (IOException e) {
+					// do now
+				}
+			}
+		}
 
-    public static void clearSession(Context context) {
-        context.getApplicationContext().deleteFile(SAVE_FILE_NAME);
-        SESSION = null;
-    }
+		return (SessionManager) object;
+	}
 
-    public ArrayList<Location> getLocationsArray() {
-        return locationsArray;
-    }
+	public static void clearSession(Context context) {
+		context.getApplicationContext().deleteFile(SAVE_FILE_NAME);
+		SESSION = null;
+	}
+
+	public ArrayList<Location> getLocationsArray() {
+		return locationsArray;
+	}
 }
