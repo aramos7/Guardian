@@ -1,8 +1,13 @@
 package com.example.guardian;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ContentResolver;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -15,15 +20,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.CalendarView;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
+import android.text.format.DateFormat;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TimePicker;
@@ -44,13 +50,18 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 	// EditText toNumber=null;
 	String toNumberValue = "";
 	String toEmailValue = "";
-	
-	Toast loading_contacts_toast;
 
 	public static ArrayList<Guardian> guardians;
 
 	// Linear Layout for adding Guardians
 	LinearLayout layoutGuardians;
+
+	// Variables for the date and time formats
+	private static long date = -1;
+	private static int hour = -1;
+	private static int minutes = -1;
+	private static Button timePickerButton;
+	private static Button datePickerButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +72,12 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		// Initialize AutoCompleteTextView values
 		textView = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
 
-		// Set it to be unclickable
+		// Set it to be disable
 		textView.setEnabled(false);
+
+		// Get buttons
+		timePickerButton = (Button) findViewById(R.id.setup_pick_time_button);
+		datePickerButton = (Button) findViewById(R.id.setup_pick_date_button);
 
 		// Create adapter
 		adapter = new ArrayAdapter<String>(this,
@@ -80,14 +95,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		// Linear Layout for Guardians
 		layoutGuardians = (LinearLayout) findViewById(R.id.guardianLayout);
-		
 
-		Context context = getApplicationContext();
-		CharSequence text = "Loading Contacts";
-		int duration = Toast.LENGTH_LONG;
-		loading_contacts_toast = Toast.makeText(context, text, duration);
-		loading_contacts_toast.show();
-		
 		// Read contact data and add data to ArrayAdapter
 		// ArrayAdapter used by AutoCompleteTextView
 		new ReadContactsTask().execute();
@@ -110,27 +118,54 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 	public void startTracking(View view) {
 		Intent intent = new Intent(this, ViewMapActivity.class);
 
-		CalendarView calendar = (CalendarView) findViewById(R.id.set_up_calendar);
-		TimePicker timer = (TimePicker) findViewById(R.id.setup_time_picker);
+		if (hour == -1 || minutes == -1 || date == -1) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("You must pick an end time or end date.")
+					.setCancelable(false)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// Nothing, just die. Haha
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+			return;
+		}
 
-		// Getting variables form the intent via user input
-		long endDate = calendar.getDate();
-		int hour = timer.getCurrentHour();
-		int minutes = timer.getCurrentMinute();
+		long endDate = date;
 
 		// Start date
 		Date start = new Date();
 		Long startDate = start.getTime();
 
 		endDate += (hour * 60 * 60 * 1000) + (minutes * 60 * 1000);
+		
+		if (endDate <= startDate) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Your session must end after today at this time.")
+					.setCancelable(false)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// Nothing, just die. Haha
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+			return;
+		}
 
 		SessionManager.SESSION.setGuardians(guardians);
 		RESTfulCommunicator.createSession(startDate, endDate,
 				SessionManager.SESSION.getGuardians());
 		startActivity(intent);
+		finish();
 	}
 
-	public void endTracking(View view) {
+	public void endSetUpActivity(View view) {
 
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
@@ -233,9 +268,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 			} // End Cursor value check
 			cur.close();
-			loading_contacts_toast.cancel();
-			AutoCompleteTextView contactsText = (AutoCompleteTextView) findViewById(R.id.setup_contacts_textview);
-			contactsText.setEnabled(true);
+			textView.setEnabled(true);
 
 		} catch (Exception e) {
 			Log.i("AutocompleteContacts", "Exception : " + e);
@@ -288,6 +321,119 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		}
 
+	}
+
+	/**
+	 * Creates and displays a time picker dialog, which then saves the user
+	 * defined information in the activity and redefines the text on the button
+	 * to the new date.
+	 */
+	public void showTimePickerDialog(View view) {
+
+		DialogFragment newFragment = new TimePickerFragment();
+		newFragment.show(getFragmentManager(), "timePicker");
+	}
+
+	/**
+	 * Creates and displays a date picker dialog, the result of which changes
+	 * the button text to match the date chosen by the user.
+	 */
+	public void showDatePickerDialog(View view) {
+
+		DialogFragment newFragment = new DatePickerFragment();
+		newFragment.show(getFragmentManager(), "datePicker");
+	}
+
+	/**
+	 * This class is setup to create a time picker dialog for this activity, to
+	 * use in creating the session for the user.
+	 */
+	public static class TimePickerFragment extends DialogFragment implements
+			TimePickerDialog.OnTimeSetListener {
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			// Use the current time as the default values for the picker
+			final Calendar c = Calendar.getInstance();
+			int hour = c.get(Calendar.HOUR_OF_DAY);
+			int minute = c.get(Calendar.MINUTE);
+
+			// Create a new instance of TimePickerDialog and return it
+			return new TimePickerDialog(getActivity(), this, hour, minute,
+					DateFormat.is24HourFormat(getActivity()));
+		}
+
+		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+			SetUpActivity.hour = hourOfDay;
+			SetUpActivity.minutes = minute;
+
+			String timeformat = "";
+			String hourformat;
+			String minuteformat;
+			boolean am = true;
+
+			// Properly formats the hour
+			if (hourOfDay == 0) {
+				hourformat = "12";
+			} else if (hourOfDay < 10) {
+				hourformat = String.format("0%d", hourOfDay);
+			} else if (hourOfDay < 12) {
+				hourformat = String.format("%d", hourOfDay);
+			} else {
+				int newhour = hourOfDay - 12;
+				hourformat = String.format("%d", newhour);
+				am = false;
+			}
+
+			// Properly formats the minutes
+			if (minute < 10) {
+				minuteformat = String.format("0%d", minute);
+			} else {
+				minuteformat = String.format("%d", minute);
+			}
+
+			timeformat += hourformat + ":" + minuteformat;
+
+			// Determines whether the hour is AM or PM
+			if (am) {
+				timeformat += " AM";
+			} else {
+				timeformat += " PM";
+			}
+
+			timePickerButton.setText(timeformat);
+		}
+	}
+
+	/**
+	 * This class managed the date picker dialog for this activity, to get the
+	 * end date' information when the user wants to end their session.
+	 */
+	public static class DatePickerFragment extends DialogFragment implements
+			DatePickerDialog.OnDateSetListener {
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			// Use the current date as the default date in the picker
+			final Calendar c = Calendar.getInstance();
+			int year = c.get(Calendar.YEAR);
+			int month = c.get(Calendar.MONTH);
+			int day = c.get(Calendar.DAY_OF_MONTH);
+
+			// Create a new instance of DatePickerDialog and return it
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		@Override
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+
+			SetUpActivity.date = view.getCalendarView().getDate();
+			String calendarDate = java.text.DateFormat.getDateInstance(
+					java.text.DateFormat.LONG).format(date);
+
+			datePickerButton.setText(calendarDate);
+		}
 	}
 
 }
