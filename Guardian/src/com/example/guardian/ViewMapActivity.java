@@ -3,15 +3,26 @@ package com.example.guardian;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
-import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class ViewMapActivity extends Activity {
 
     SharedPreferences prefs;
+    private ListView locationsList;
+    private static ArrayAdapter<Location> listAdapter;
+    private static ArrayList<Location> locList;
 //    ViewMapActivity mapActivity;
+
+    public ViewMapActivity() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +45,19 @@ public class ViewMapActivity extends Activity {
             SessionManager.SESSION = SessionManager.load(getApplicationContext());
         }
 
+        //Load previous updates into the List View
+        locationsList = (ListView) findViewById(R.id.locationsList);
+        locList = new ArrayList<Location>() {
+            @Override
+            public boolean add(Location object) {
+                super.add(object); // Always returns true for ArrayList
+                listAdapter.notifyDataSetChanged();
+                return true;
+        }};
+        listAdapter = new ArrayAdapter<Location>(this, R.layout.location_row, locList);
+        //listAdapter = new ArrayAdapter<String>(this, R.layout.location_row, temp);
+        locationsList.setAdapter(listAdapter);
+
         //Start background service
         startService(new Intent(this, LocationService.class));
     }
@@ -52,5 +76,9 @@ public class ViewMapActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         SessionManager.SESSION.save(getApplicationContext());
+    }
+
+    public static void addLocation(final Location location) {
+        locList.add(location);
     }
 }

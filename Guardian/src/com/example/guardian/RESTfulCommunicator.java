@@ -30,7 +30,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 /**
  * Created to simply authenticate a session. Thanks.
@@ -142,14 +141,15 @@ public class RESTfulCommunicator {
 
                     //Log.d("Response ~~~~~~~", curr.toString());
                     //Check the response for the update on the app
-                    String responseStr = EntityUtils.toString(response.getEntity());
-                    if (responseStr.equals("true")) {
-                        SessionManager.SESSION.updateLocationsArray(location);
-                    }
-                    else
-                    {
-                        //warn user
-                    }
+                    //String responseStr = EntityUtils.toString(response.getEntity());
+                    //if (responseStr.equals("true")) {
+                    SessionManager.SESSION.updateLocationsArray(location);
+                        // Adding to the ViewMapActivity
+//                    }
+//                    else
+//                    {
+//                        //warn user
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

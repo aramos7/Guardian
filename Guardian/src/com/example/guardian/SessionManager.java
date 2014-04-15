@@ -171,8 +171,12 @@ public class SessionManager extends Observable implements Serializable{
         return (SessionManager)object;
     }
 
-    public static void clearSession() {
-        GuardianApp.getApplication().deleteFile(SAVE_FILE_NAME);
+    public static void clearSession(Context context) {
+        context.getApplicationContext().deleteFile(SAVE_FILE_NAME);
         SESSION = null;
+    }
+
+    public ArrayList<Location> getLocationsArray() {
+        return locationsArray;
     }
 }

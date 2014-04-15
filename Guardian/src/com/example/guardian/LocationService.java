@@ -56,7 +56,7 @@ public class LocationService extends Service {
 
         //Location Manager
         locMgr = (LocationManager)getSystemService(LOCATION_SERVICE);
-        locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, onLocationChange);
+        locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, onLocationChange);
 
         note = new Notification(R.drawable.ic_launcher,
                 "Session Started",
