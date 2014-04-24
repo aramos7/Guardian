@@ -129,11 +129,6 @@ public class SessionManager extends Observable implements Serializable {
 	 */
 	public void updateLocationsArray(Location location) {
 		locationsArray.add(location);
-
-		LocationService current = LocationService.current_service;
-		if (current != null) {
-			current.updateUi(location);
-		}
 	}
 
 	public void save(Context context) {

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -70,31 +69,6 @@ public class ViewMapActivity extends Activity {
 		// temp);
 		locationsList.setAdapter(listAdapter);
 
-		// Sets up the receiver to retrieve the latitude and longitude
-		// information from the broadcast
-		receiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				double latitude = 0;
-				double longitude = 0;
-				intent.getDoubleExtra(LocationService.LATITUDE, latitude);
-				intent.getDoubleExtra(LocationService.LONGITUDE, longitude);
-
-				String newLocation = "";
-
-				newLocation += "Coordinates: ("
-						+ latitude
-						+ ", "
-						+ longitude
-						+ ")\nTime: "
-						+ java.text.DateFormat.getDateTimeInstance().format(
-								Calendar.getInstance().getTime());
-
-				listAdapter.add(newLocation);
-			}
-		};
-
 		// Start background service
 		startService(new Intent(this, LocationService.class));
 	}
@@ -115,16 +89,16 @@ public class ViewMapActivity extends Activity {
 		SessionManager.SESSION.save(getApplicationContext());
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-				new IntentFilter(LocationService.LOCATION_UI_UPDATE));
-	}
-
-	@Override
-	protected void onStop() {
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-		super.onStop();
-	}
+//	@Override
+//	protected void onStart() {
+//		super.onStart();
+//		LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+//				new IntentFilter(LocationService.LOCATION_UI_UPDATE));
+//	}
+//
+//	@Override
+//	protected void onStop() {
+//		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+//		super.onStop();
+//	}
 }

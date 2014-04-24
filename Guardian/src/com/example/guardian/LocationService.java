@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,22 +24,16 @@ public class LocationService extends Service {
 
 	private static final String TAG = "Location Service";
 	private LocationManager locMgr;
+
 	Notification note;
-
-	// Manages the communication from this service to the ViewMapActivity
-	private LocalBroadcastManager broadcaster;
-
-	// Strings to filter out intent for app and information from the intent
-	public final static String LOCATION_UI_UPDATE = "com.example.LocationService.UPDATE_LOC";
-	public final static String LATITUDE = "latitude";
-	public final static String LONGITUDE = "longitude";
 	
 	// Singleton to communicate with this instance of the LocationService
-	public static LocationService current_service = null;
+	//public static LocationService current_service = null;
 
 	LocationListener onLocationChange = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			updateLocation(location);
+            Log.d("onLocationChanged", "true");
+            updateLocation(location);
 		}
 
 		public void onProviderDisabled(String provider) {
@@ -63,18 +57,23 @@ public class LocationService extends Service {
 	@Override
 	public void onCreate() {
 		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
-		Log.d(TAG, "onCreate");
+		//Log.d(TAG, "onCreate");
 
 		// Instantiate the broadcast manager
-		broadcaster = LocalBroadcastManager.getInstance(this);
+		//broadcaster = LocalBroadcastManager.getInstance(this);
 		
 		// Link this service instance to the singleton
-		current_service = this;
+		//current_service = this;
 
 		// Location Manager
 		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-		locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0,
+		locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0,
 				onLocationChange);
+        //Log.d("Location Provider", LocationManager.NETWORK_PROVIDER);
+        Log.d("Location Manager", locMgr.toString());
+        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            Log.d("Location Provider", LocationManager.NETWORK_PROVIDER);
+        }
 
 		note = new Notification(R.drawable.ic_launcher, "Session Started",
 				SessionManager.SESSION.getStartDate());
@@ -105,6 +104,7 @@ public class LocationService extends Service {
 	private void updateLocation(Location loc) {
 		try {
 			// Post Location Request
+            Log.d("Executing post request", "~~~~~~~~");
 			RESTfulCommunicator.postLocation(loc);
 			note = new Notification(R.drawable.ic_launcher, "Session Started",
 					SessionManager.SESSION.getStartDate());
@@ -125,22 +125,5 @@ public class LocationService extends Service {
 		} catch (Throwable t) {
 			android.util.Log.e("SendingLocation", "Exception fetching data", t);
 		}
-	}
-
-	/**
-	 * Utilizes a LocalBroadcastManager to update the locations in the
-	 * ViewMapActivity ListView view.
-	 * 
-	 * @param location
-	 *            Location to add to ViewMapActivity ListView
-	 */
-	public void updateUi(Location location) {
-		
-		Intent intent = new Intent(LOCATION_UI_UPDATE);
-		if (location != null) {
-			intent.putExtra(LATITUDE, location.getLatitude());
-			intent.putExtra(LONGITUDE, location.getLongitude());
-		}
-		broadcaster.sendBroadcast(intent);
 	}
 }
