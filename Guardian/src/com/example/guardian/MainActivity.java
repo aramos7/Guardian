@@ -49,9 +49,13 @@ public class MainActivity extends Activity {
 		SessionManager.SESSION = new SessionManager(email, password, false);
 		RESTfulCommunicator.checkLoginCredentials(email, password,
 				new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject object) {
+                        //Unimplemented
+                    }
 					@Override
-					public void onSuccess(JSONObject object) {
-						SessionManager.SESSION.setValidated(true);
+					public void onSuccess() {
+						//SessionManager.SESSION.setValidated(true); Done in RESTfulCommunicator
 						intent.setClass(MainActivity.this, SetUpActivity.class);
 						startActivity(intent);
 						finish();

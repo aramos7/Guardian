@@ -40,7 +40,7 @@ public class SessionManager extends Observable implements Serializable {
 	private boolean validated = false;
 	private ArrayList<Guardian> guardians;
 	private String address;
-	private HttpContext httpContext;
+	//ååprivate HttpContext httpContext;
 	private long endDate;
 	private long startDate;
 	private ArrayList<Location> locationsArray;
@@ -52,7 +52,7 @@ public class SessionManager extends Observable implements Serializable {
 		this.password = password;
 		this.validated = validated;
 		sessionID = "";
-		httpContext = new BasicHttpContext();
+		//httpContext = new BasicHttpContext();
 		guardians = new ArrayList<Guardian>();
 		locationsArray = new ArrayList<Location>();
 	}
@@ -80,13 +80,13 @@ public class SessionManager extends Observable implements Serializable {
 		this.address = address;
 	}
 
-	public HttpContext getHttpContext() {
-		return httpContext;
-	}
+	//public HttpContext getHttpContext() {
+	//	return httpContext;
+	//}
 
-	public void setHttpContext(HttpContext httpContext) {
-		this.httpContext = httpContext;
-	}
+	//public void setHttpContext(HttpContext httpContext) {
+	//	this.httpContext = httpContext;
+	//}
 
 	public void setSessionID(String input) {
 		sessionID = input;

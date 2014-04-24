@@ -17,7 +17,7 @@ import java.util.Calendar;
 
 public class ViewMapActivity extends Activity {
 
-	SharedPreferences prefs;
+	//SharedPreferences prefs;
 	private ListView locationsList;
 	private static ArrayAdapter<String> listAdapter;
 	private static ArrayList<String> locList;
@@ -39,14 +39,14 @@ public class ViewMapActivity extends Activity {
 
 		if (SessionManager.SESSION.getValidated()) {
 			// Put session ID in shared preferences
-			prefs = getSharedPreferences("sessionID", 0);
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString("_id", SessionManager.SESSION.getSessionId());
-			editor.commit();
+			//prefs = getSharedPreferences("sessionID", 0);
+			//SharedPreferences.Editor editor = prefs.edit();
+			//editor.putString("_id", SessionManager.SESSION.getSessionId());
+			//editor.commit();
 		} else {
 			// Log.d("Getting to the get Request for ", prefs.getString("_id",
 			// ""));
-			String sessionID = prefs.getString("_id", "");
+			//String sessionID = prefs.getString("_id", "");
 			// SessionManager.SESSION.setSessionID(sessionID);
 			// RESTfulCommunicator.getSession();
 			SessionManager.SESSION = SessionManager
