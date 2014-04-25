@@ -1,0 +1,92 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <TextView
+            android:id="@+id/setup_picktime_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:text="@string/setup_pick_time_string"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/setup_pick_time_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showTimePickerDialog"
+            android:text="@string/setup_pick_time_string" />
+
+        <TextView
+            android:id="@+id/setup_pickdate_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:text="@string/setup_pick_date_string"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/setup_pick_date_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showDatePickerDialog"
+            android:text="@string/setup_pick_date_string" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_pick_guardian"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <AutoCompleteTextView
+                android:id="@+id/setup_contacts_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:clickable="false"
+                android:ellipsize="end"
+                android:enabled="true"
+                android:gravity="left|center_vertical"
+                android:hint="@string/type_name"
+                android:singleLine="true" />
+
+            <LinearLayout
+                android:id="@+id/guardianLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/setup_start_tracking_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startTracking"
+            android:text="@string/setup_start_tracking_string" />
+
+        <Button
+            android:id="@+id/setup_cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="endSetUpActivity"
+            android:text="@string/cancel_string" />
+    </LinearLayout>
+
+</ScrollView>
