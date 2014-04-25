@@ -1,5 +1,6 @@
 package com.example.guardian;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
@@ -48,14 +49,14 @@ public class RESTfulCommunicator {
 	 *            Password of user.
 	 * @return True is valid, false if not.
 	 */
-    public static void checkLoginCredentials(final String email, final String password, final JsonHttpResponseHandler handler) {
+    public static void checkLoginCredentials(final String email, final String password, final AsyncResponseHandler handler) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.setCookieStore(cookieStore);
         client.post(BASE_URL + "api/login", new RequestParams("email", email, "password", password), new AsyncHttpResponseHandler() {
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, String responseBody) {
-                Log.d("responseBody", responseBody.toString());
+                Log.d("Response Body", responseBody);
                 if (statusCode == 200) {
-                    if (responseBody.toString().equals("true")) {
+                    if (responseBody.equals("true")) {
                         if (handler != null) handler.onSuccess();
                         SessionManager.SESSION.setValidated(true);
                         //Save cookie on login to reuse for the session
@@ -68,11 +69,9 @@ public class RESTfulCommunicator {
                     if (handler != null) handler.onFailure();
             }
         });
-
     }
 //	public static void checkLoginCredentials(final String email,
 //                                                       final String password,
-//                                                       final JsonHttpResponseHandler handler) {
 //        Thread thread = new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -126,55 +125,92 @@ public class RESTfulCommunicator {
     /**
      * Post request to send Locations of the user
      */
-    public static void postLocation (final Location location)
-    {
-        Thread t = new Thread() {
-            public void run() {
-                // Create a new HttpClient and Post Header
-                String resource = "api/updateLocationsArrayForSession/";
-                resource += SessionManager.SESSION.getSessionId();
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(BASE_URL + resource);
-                JSONObject json = new JSONObject();
 
-                try {
-                    // Add your data
-                    JSONObject info = new JSONObject();
-                    info.put("latitude", location.getLatitude());
-                    info.put("longitude", location.getLongitude());
-                    info.put("timeStamp", System.currentTimeMillis());
+    public static void postLocation(Context context, final Location location, final AsyncResponseHandler handler) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setCookieStore(SessionManager.SESSION.getCookieStore());
 
-                    json.put("location", info);
+        //resource for the request
+        String resource = "api/updateLocationsArrayForSession/";
+        resource += SessionManager.SESSION.getSessionId();
 
-                    //Setting the entities and content
-                    StringEntity se = new StringEntity(json.toString());
-                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    httppost.setEntity(se);
-
-                    //JSONObject curr = null;
-                    HttpContext httpContext = new BasicHttpContext();
-                    httpContext.setAttribute(ClientContext.COOKIE_STORE, SessionManager.SESSION.getCookieStore());
-                    HttpResponse response = httpclient.execute(httppost, httpContext);
-                    //curr = httpResponseToJSONObject(response);
-
-                    //Log.d("Response ~~~~~~~", curr.toString());
-                    //Check the response for the update on the app
-                    //String responseStr = EntityUtils.toString(response.getEntity());
-                    //if (responseStr.equals("true")) {
-                    SessionManager.SESSION.updateLocationsArray(location);
-                        // Adding to the ViewMapActivity
-//                    }
-//                    else
-//                    {
-//                        //warn user
-//                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+        //Entity for post request
+        StringEntity se = null;
+        JSONObject json = new JSONObject();
+        JSONObject info = new JSONObject();
+        try {
+            info.put("latitude", location.getLatitude());
+            info.put("longitude", location.getLongitude());
+            info.put("timeStamp", System.currentTimeMillis());
+            json.put("location", info);
+            se = new StringEntity(json.toString());
+        }
+        catch (Exception e) {}
+        client.post(context, BASE_URL + resource, se, "application/json", new AsyncHttpResponseHandler() {
+            public void onSuccess(String response) {
+                if (response.equals("true")) {
+                    if (handler != null) {
+                        SessionManager.SESSION.updateLocationsArray(location);
+                        handler.onSuccess();
+                    }
+                }
+                else {
+                    if (handler != null) {
+                        handler.onFailure();
+                    }
                 }
             }
-        };
-        t.start();
+        });
     }
+//    public static void postLocation (final Location location)
+//    {
+//        Thread t = new Thread() {
+//            public void run() {
+//                // Create a new HttpClient and Post Header
+//                String resource = "api/updateLocationsArrayForSession/";
+//                resource += SessionManager.SESSION.getSessionId();
+//                HttpClient httpclient = new DefaultHttpClient();
+//                HttpPost httppost = new HttpPost(BASE_URL + resource);
+//                JSONObject json = new JSONObject();
+//
+//                try {
+//                    // Add your data
+//                    JSONObject info = new JSONObject();
+//                    info.put("latitude", location.getLatitude());
+//                    info.put("longitude", location.getLongitude());
+//                    info.put("timeStamp", System.currentTimeMillis());
+//
+//                    json.put("location", info);
+//
+//                    //Setting the entities and content
+//                    StringEntity se = new StringEntity(json.toString());
+//                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//                    httppost.setEntity(se);
+//
+//                    //JSONObject curr = null;
+//                    HttpContext httpContext = new BasicHttpContext();
+//                    httpContext.setAttribute(ClientContext.COOKIE_STORE, SessionManager.SESSION.getCookieStore());
+//                    HttpResponse response = httpclient.execute(httppost, httpContext);
+//                    //curr = httpResponseToJSONObject(response);
+//
+//                    //Log.d("Response ~~~~~~~", curr.toString());
+//                    //Check the response for the update on the app
+//                    //String responseStr = EntityUtils.toString(response.getEntity());
+//                    //if (responseStr.equals("true")) {
+//                    SessionManager.SESSION.updateLocationsArray(location);
+//                        // Adding to the ViewMapActivity
+////                    }
+////                    else
+////                    {
+////                        //warn user
+////                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        t.start();
+//    }
 
     /**
      * Post request to create a session for the user

@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 		
 		SessionManager.SESSION = new SessionManager(email, password, false);
 		RESTfulCommunicator.checkLoginCredentials(email, password,
-				new JsonHttpResponseHandler() {
+				new AsyncResponseHandler() {
                     @Override
                     public void onSuccess(JSONObject object) {
                         //Unimplemented

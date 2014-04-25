@@ -13,6 +13,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -105,7 +107,22 @@ public class LocationService extends Service {
 		try {
 			// Post Location Request
             Log.d("Executing post request", "~~~~~~~~");
-			RESTfulCommunicator.postLocation(loc);
+			RESTfulCommunicator.postLocation(this, loc, new AsyncResponseHandler() {
+                @Override
+                public void onSuccess(JSONObject object) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
 			note = new Notification(R.drawable.ic_launcher, "Session Started",
 					SessionManager.SESSION.getStartDate());
 			Intent i = new Intent(this, ViewMapActivity.class);
