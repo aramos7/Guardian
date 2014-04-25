@@ -1,19 +1,13 @@
 package com.example.guardian;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class ViewMapActivity extends Activity {
 
@@ -21,13 +15,6 @@ public class ViewMapActivity extends Activity {
 	private ListView locationsList;
 	private static ArrayAdapter<String> listAdapter;
 	private static ArrayList<String> locList;
-
-	private BroadcastReceiver receiver;
-
-	// ViewMapActivity mapActivity
-	public ViewMapActivity() {
-
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +31,6 @@ public class ViewMapActivity extends Activity {
 			//editor.putString("_id", SessionManager.SESSION.getSessionId());
 			//editor.commit();
 		} else {
-			// Log.d("Getting to the get Request for ", prefs.getString("_id",
-			// ""));
-			//String sessionID = prefs.getString("_id", "");
-			// SessionManager.SESSION.setSessionID(sessionID);
-			// RESTfulCommunicator.getSession();
 			SessionManager.SESSION = SessionManager
 					.load(getApplicationContext());
 		}
@@ -65,8 +47,6 @@ public class ViewMapActivity extends Activity {
 		};
 		listAdapter = new ArrayAdapter<String>(this, R.layout.location_row,
 				locList);
-		// listAdapter = new ArrayAdapter<String>(this, R.layout.location_row,
-		// temp);
 		locationsList.setAdapter(listAdapter);
 
 		// Start background service
@@ -76,9 +56,6 @@ public class ViewMapActivity extends Activity {
 	public void endSession(View view) {
 		Intent intent = new Intent(this, SetUpActivity.class);
 		RESTfulCommunicator.deleteSession();
-		// SharedPreferences.Editor editor = prefs.edit();
-		// editor.remove("_id");
-		// editor.commit();
 		stopService(new Intent(this, LocationService.class));
 		startActivity(intent);
 	}
@@ -88,17 +65,4 @@ public class ViewMapActivity extends Activity {
 		super.onDestroy();
 		SessionManager.SESSION.save(getApplicationContext());
 	}
-
-//	@Override
-//	protected void onStart() {
-//		super.onStart();
-//		LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-//				new IntentFilter(LocationService.LOCATION_UI_UPDATE));
-//	}
-//
-//	@Override
-//	protected void onStop() {
-//		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-//		super.onStop();
-//	}
 }

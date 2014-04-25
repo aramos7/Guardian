@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -170,6 +171,7 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	// Read phone contact name and phone numbers
@@ -449,10 +451,18 @@ public class SetUpActivity extends Activity implements OnItemClickListener,
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 
-			SetUpActivity.date = view.getCalendarView().getDate();
+			Date choice = new Date(view.getCalendarView().getDate());
+			choice.setMinutes(0);
+			choice.setSeconds(0);
+			choice.setHours(0);
+			
+			SetUpActivity.date = choice.getTime();
+			
 			String calendarDate = java.text.DateFormat.getDateInstance(
-					java.text.DateFormat.LONG).format(date);
+					java.text.DateFormat.LONG).format(SetUpActivity.date);
 
+			String know = java.text.DateFormat.getDateTimeInstance().format(SetUpActivity.date);
+			Toast.makeText(getActivity(), know, Toast.LENGTH_LONG).show();
 			datePickerButton.setText(calendarDate);
 		}
 	}

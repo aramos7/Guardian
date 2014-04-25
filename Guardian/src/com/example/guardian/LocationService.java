@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -59,14 +58,11 @@ public class LocationService extends Service {
 	@Override
 	public void onCreate() {
 		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
-		//Log.d(TAG, "onCreate");
 
-		// Instantiate the broadcast manager
-		//broadcaster = LocalBroadcastManager.getInstance(this);
+		if (SessionManager.SESSION == null) {
+			Log.d("Session", "It's null");
+		}
 		
-		// Link this service instance to the singleton
-		//current_service = this;
-
 		// Location Manager
 		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 		locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0,
